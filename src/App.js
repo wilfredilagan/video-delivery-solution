@@ -3,6 +3,7 @@ import './App.css';
 import Nav from './Navbar';
 import Main from './Main';
 import Login from './Login'
+import Admin from './Admin';
 import { Container, Row, Col } from 'reactstrap';
 import { BrowserRouter as Router, Route} from "react-router-dom"
 
@@ -20,6 +21,7 @@ function App() {
         <Row fluid>
             <Route path="/" exact component={Main} />
             <Route path="/login" exact component={Login} />
+            <Route path="/admin" exact component={Admin} />
         </Row>
       </Container>
       </Router>
