@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+.App .btn-secondary {
+  background-color: #007FA3;
+}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -31,3 +34,5 @@
     transform: rotate(360deg);
   }
 }
+
+

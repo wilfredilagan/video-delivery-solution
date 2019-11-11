@@ -1,14 +1,14 @@
 import React from 'react';
 import {Row} from 'reactstrap'; 
-import Assets from './Assets';
+import Users from './Users';
 
-export default class Main extends React.Component {
+export default class Admin extends React.Component {
     render(){
         return(   
             <div className="col">
-                <p style={{textAlign: "left", fontSize: "30px"}}>Recent Items</p>
+                <p style={{textAlign: "left", fontSize: "30px"}}>Update Users</p>
                 <Row>
-                    <Assets></Assets>
+                    <Users></Users>
                 </Row>
             </div>
         )}
