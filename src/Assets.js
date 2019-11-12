@@ -352,7 +352,7 @@ class Assets extends Component {
         : <span 
             style={{cursor: 'pointer', textAlign: 'center', color: 'blue', textDecoration: 'underline'}} 
             onClick={() => this.handleClick(row.original.id)}>
-            {row.original.id}
+            <Link to="/publishpointasset">{row.original.id}</Link>
           </span>
         ),
       },{
