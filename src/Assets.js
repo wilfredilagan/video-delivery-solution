@@ -344,9 +344,18 @@ class Assets extends Component {
     const columns = [{
       Header: 'ID',
       accessor: 'id',
-      Cell: row => (<span onClick={() => this.handleClick(row.original.id)}><Link to="/publishpointasset">{row.original.id}</Link></span>),
-      style: {cursor: 'pointer', textAlign: 'center', color: 'blue', textDecoration: 'underline'}
-    }, {
+      Cell: row => (
+        row.original.status === 'Not Active' 
+        ? <span>
+            {row.original.id}
+          </span>
+        : <span 
+            style={{cursor: 'pointer', textAlign: 'center', color: 'blue', textDecoration: 'underline'}} 
+            onClick={() => this.handleClick(row.original.id)}>
+            {row.original.id}
+          </span>
+        ),
+      },{
       Header: 'Series',
       accessor: 'series',
     },{
