@@ -21,10 +21,14 @@
     "xml2js": "^0.4.19",
     "@material-ui/core": "^4.6.0",
     "@material-ui/icons": "^4.5.1",
-    "react-table": "^6.10.3"
+    "react-table": "^6.10.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "knex": "^0.14.6",
+    "concurrently": "^4.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npx nodemon server/server.js -w server\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
