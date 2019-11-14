@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import {
     Input,
     Button,
@@ -24,13 +25,27 @@ export default class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.username);
-    console.log(this.state.password);
-    //Add Axios code here
-    //If credentials are valid, user role is returned
-    //If user role is returned, route us to main page
-    //If user role is not returned, display error
+    const { username , password } = this.state;
+    console.log(username);
+    console.log(password);
+    this.getAssets(username, password);
   }
+
+  //Use for testing: https://jsonplaceholder.typicode.com/posts
+  //Use for prod: 
+  getAssets = async (username, password) => {
+    try {
+      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {username: username, password: password});
+      console.log("response", response);
+      if(response === '') {
+        console.log("Login succeeded, go to assets page");
+      }else {
+        console.log("Login failed, display error");
+      }
+    } catch(error) {
+      console.log("error", error);
+    }
+  };
 
   render(){
       return(
