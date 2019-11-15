@@ -48,11 +48,9 @@ export default class Login extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <div style={{alignContent: "center"}}>
                     <Button style={{marginTop: "30px", marginLeft: "10px"}}>Add</Button>
                     <Button style={{marginTop: "30px", marginLeft: "10px"}}>Update</Button>
                     <Button style={{marginTop: "30px", marginLeft: "10px"}}>Delete</Button>
-                    </div>
                 </Row>
             </div>
         )}
