@@ -14,6 +14,7 @@
     "body-parser": "^1.18.2",
     "bootstrap": "^4.3.1",
     "concurrently": "^4.1.2",
+    "dotenv": "^8.2.0",
     "express": "^4.16.3",
     "knex": "^0.14.6",
     "node-fetch": "^2.6.0",

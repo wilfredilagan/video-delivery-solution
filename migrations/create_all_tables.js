@@ -3,16 +3,10 @@
 
 //creae schema
 exports.up = function(knex, Promise) {
-    return createUsersTable()
-        .then(createSeriesTable)
-        .then(createGroupTypeTable)
-        .then(createVideoAssetsTable)
-        .then(createPubPointAssetTable)
-        .then(createPubDatesTable)
-
-    function createUsersTable(){    
-        knex.schema.createTable('users', function (t) {
+    return knex.schema
+    .createTable('users', function (t) {
         t.increments('user_id').primary()
+        t.string('salt').notNullable()
         t.string('username').notNullable()
         t.string('password').notNullable()
         t.string('role').notNullable()
@@ -20,20 +14,16 @@ exports.up = function(knex, Promise) {
         t.string('email_address').notNullable()
         t.string('profile_picture').notNullable()
         t.timestamps(true, true)
-        })
-    }
+    })
 
-    function createSeriesTable(){
-        knex.schema.createTable('series', function(t){
+    .createTable('series', function(t){
             t.integer('series_id').primary()
             t.string('series_title').notNullable()
             t.string('series_desc').notNullable()
             t.string('series_tags').notNullable()
-        })
-    }
+    })
     
-    function createGroupTypeTable(){
-        knex.schema.createTable('group_type', function(t){
+    .createTable('group_type', function(t){
             t.string('group_type').primary()
             t.boolean('active').notNullable()
             t.integer('user_id').notNullable()
@@ -42,11 +32,9 @@ exports.up = function(knex, Promise) {
                 .on('users')
             t.foreign('series_id').references('series_id')
                 .on('series')
-        })
-    }
+    })
 
-    function createVideoAssetsTable(){
-        knex.schema.createTable('video_assets', function(t){
+    .createTable('video_assets', function(t){
             t.string('video_id').primary()
             t.string('main_title').notNullable()
             t.integer('series_id').notNullable()
@@ -57,11 +45,9 @@ exports.up = function(knex, Promise) {
             t.timestamps(true,true)
             t.foreign('series_id').references('series_id')
                 .on('series')
-        })
-    }
+    })
 
-    function createPubPointAssetTable(){
-        knex.schema.createTable('pub_point_asset', function(t){
+    .createTable('pub_point_asset', function(t){
             t.increments('pub_point_asset_id').primary()
             t.string('pub_point_title').notNullable()
             t.string('pub_point_desc').notNullable()
@@ -69,11 +55,9 @@ exports.up = function(knex, Promise) {
             t.string('video_id').notNullable()
             t.foreign('video_id').references('video_id')
                 .on('video_assets')
-        })
-    }
-
-    function createPubDatesTable(){
-        knex.schema.createTable('pub_dates', function(t){
+    })
+    
+    .createTable('pub_dates', function(t){
             t.increments('pub_dates_id').primary()
             t.integer('pub_point_asset_id').notNullable()
             t.timestamp('pub_date', {useTz: true}).notNullable()
@@ -81,7 +65,6 @@ exports.up = function(knex, Promise) {
             t.foreign('pub_point_asset_id').references('pub_point_asset_id')
                 .on('pub_point_asset')
         })
-    }
 };
 
 

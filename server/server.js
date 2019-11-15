@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const store = require('./store')
@@ -9,7 +10,7 @@ app.use(bodyParser.json())
 
 
 app.post('/api/authenticate', (req, res) => {
-  /*store
+  store
     .authenticate({
       username: req.body.username,
       password: req.body.password
@@ -17,8 +18,7 @@ app.post('/api/authenticate', (req, res) => {
     .then(({ success }) => {
       if (success) res.sendStatus(200)
       else res.sendStatus(401)
-    })*/
-    res.sendStatus(200);
+    })
 })
 
 app.post('/api/adduser', (req,res) =>{

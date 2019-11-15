@@ -1,5 +1,5 @@
 const crypto = require('crypto')
-const knex = require('knex')(require('./knexfile'))
+const knex = require('knex')(require('../knexfile'))
 
 module.exports = {
   createUser ({ username, password, role, department, email_address, profile_picture }) {
@@ -25,7 +25,7 @@ module.exports = {
           password,
           salt: user.salt
         })
-        return { success: hash === user.encrypted_password }
+        return { success: hash === user.password }
       })
   }
 }
@@ -35,7 +35,7 @@ function saltHashPassword ({
   salt = randomString()
 }) {
   const hash = crypto
-    .createHmac('sha512', salt)
+    .createHmac('sha512', salt[0])
     .update(password)
   return {
     salt,
