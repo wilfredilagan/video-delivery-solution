@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-//const store = require('./store')
+const store = require('./store')
 const app = express()
 
 app.use(express.static('public'))
@@ -22,7 +22,17 @@ app.post('/api/authenticate', (req, res) => {
 })
 
 app.post('/api/adduser', (req,res) =>{
-  res.sendStatus(200);
+    store
+    .createUser({
+      username: req.body.username,
+      password: req.body.password,
+      role: req.body.role,
+      department: req.body.department,
+      email_address: req.body.email_address,
+      profile_picture: req.body.profile_picture
+
+    })
+    .then(() => res.sendStatus(200))
 })
 
 app.get('/', (req, res) => {
