@@ -5,7 +5,6 @@ import {
     Col,
     Row } from 'reactstrap';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 export default class Login extends React.Component {
 
@@ -14,11 +13,11 @@ export default class Login extends React.Component {
         this.state = {
           username: '',
           password: '',
+          email: '',
           department: 'cad',
           role: 'scheduler',
           group: 'kids',
-          redirect: false,
-          error: false
+          confirmation: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,37 +32,29 @@ export default class Login extends React.Component {
     
       handleSubmit(event) {
         event.preventDefault();
-        const { username , password, department, role, group } = this.state;
+        const { username , password, email, department, role, group } = this.state;
         console.log(username);
         console.log(password);
+        console.log(email);
         console.log(department);
         console.log(role);
         console.log(group);
-        this.getAssets(username, password, department, role, group);
+        this.getAssets(username, password, email, department, role, group);
       }
     
-      renderRedirect = () => {
-        if (this.state.redirect) {
-          return <Redirect to='/' />
+      renderConfirmation = () => {
+        if (this.state.confirmation) {
+          return <div><p>User successfully added</p></div>
         }
       }
     
-      renderError = () => {
-        if (this.state.error) {
-          return <div><p>Incorrect user name or password. Try again.</p></div>
-        }
-      }
-    
-      getAssets = async (username, password, department, role, group) => {
+      getAssets = async (username, password, email, department, role, group) => {
         try {
-          const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {username: username, password: password, department: department, role: role, group: group});
+          const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {username: username, password: password, email: email, department: department, role: role, group: group});
           console.log("response", response);
-          if(response === 'HTTP/1.1 200 OK') {
-            console.log("Login succeeded, go to assets page");
-            this.setState({redirect: true});
-          }else {
-            console.log("Login failed, display error");
-            this.setState({error: true});
+          if(response) {
+            console.log("Login succeeded, display confirmation");
+            this.setState({confirmation: true});
           }
         } catch(error) {
           console.log("error", error);
@@ -84,6 +75,8 @@ export default class Login extends React.Component {
                         <Input name="username" type="text" onChange={this.handleChange} />
                         <p>Password</p>
                         <Input name="password" type="password" onChange={this.handleChange} />
+                        <p>Email</p>
+                        <Input name="email" type="email" onChange={this.handleChange} />
                         <div></div>
                         <p>Department</p>
                         <Input name="department" type="select" onChange={this.handleChange} >
@@ -107,8 +100,8 @@ export default class Login extends React.Component {
                         <Button style={{marginTop: "30px", marginLeft: "10px"}}>Delete</Button> */}
                     </Col>
                 </Row>
+                {this.renderConfirmation()}
             </div>
         )}
-
 
 }
