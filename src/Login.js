@@ -49,9 +49,9 @@ export default class Login extends React.Component {
 
   getAssets = async (username, password) => {
     try {
-      const response = await axios.post("/api/authenticate", {username: username, password: password});
-      console.log("response", response);
-      if(response === 'HTTP/1.1 200 OK') {
+      const response = await axios.post("http://127.0.0.1:4000/api/authenticate", {username: username, password: password});
+      console.log("response", response.status);
+      if(response.status === 200) {
         console.log("Login succeeded, go to assets page");
         this.setState({redirect: true});
       }else {
