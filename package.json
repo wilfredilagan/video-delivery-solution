@@ -14,6 +14,7 @@
     "body-parser": "^1.18.2",
     "bootstrap": "^4.3.1",
     "concurrently": "^4.1.2",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
     "knex": "^0.14.6",
@@ -30,7 +31,7 @@
     "xml2js": "^0.4.19"
   },
   "scripts": {
-    "start": "concurrently \"npx nodemon server/server.js -w server\" \"react-scripts start\"",
+    "start": "concurrently \"npx nodemon server/server.js -w server\" \"PORT=8080 react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

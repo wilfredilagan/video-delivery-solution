@@ -15,7 +15,6 @@ exports.up = function(knex, Promise) {
         t.string('profile_picture').notNullable()
         t.timestamps(true, true)
     })
-
     .createTable('series', function(t){
             t.integer('series_id').primary()
             t.string('series_title').notNullable()
@@ -28,12 +27,11 @@ exports.up = function(knex, Promise) {
             t.boolean('active').notNullable()
             t.integer('user_id').notNullable()
             t.integer('series_id').notNullable()
-            t.foreign('user_id').references('user_id')
-                .on('users')
             t.foreign('series_id').references('series_id')
                 .on('series')
+            t.foreign('user_id').references('user_id')
+                .on('users')
     })
-
     .createTable('video_assets', function(t){
             t.string('video_id').primary()
             t.string('main_title').notNullable()
