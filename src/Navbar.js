@@ -36,22 +36,8 @@ import { NavLink, Link} from "react-router-dom";
             <Col>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                <Link to="/admin"><Button>Admin</Button></Link>
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret style={{color: '#FFFFFF', fontSize: "18px"}}>
-                      Login Options
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
-                      <NavLink to="/login">
-                          Login
-                      </NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                      Logout
-                    </DropdownItem>
-                  </DropdownMenu>
-                  </UncontrolledDropdown>
+                <NavLink to="/admin" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px"}}>Admin</NavLink>
+                <NavLink to="/login" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px", marginLeft: "15px"}}>Logout</NavLink>
                 <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret style={{color: '#FFFFFF', fontSize: "16px"}}>
                 <FontAwesomeIcon icon={faSearch} size="lg" style={{color:'white', justifyContent: 'right', marginTop: '0px', marginLeft:'8px'}} /> 
