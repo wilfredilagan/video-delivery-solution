@@ -16,7 +16,7 @@ export default class Login extends React.Component {
           email: '',
           department: 'cad',
           role: 'scheduler',
-          group: 'kids',
+          profile_picture: '',
           confirmation: false
         };
         this.handleChange = this.handleChange.bind(this);
@@ -32,14 +32,14 @@ export default class Login extends React.Component {
     
       handleSubmit(event) {
         event.preventDefault();
-        const { username , password, email, department, role, group } = this.state;
+        const { username , password, email, department, role, profile_picture} = this.state;
         console.log(username);
         console.log(password);
         console.log(email);
         console.log(department);
         console.log(role);
-        console.log(group);
-        this.getAssets(username, password, email, department, role, group);
+        console.log(profile_picture)
+        this.getAssets(username, password, email, department, role, profile_picture);
       }
     
       renderConfirmation = () => {
@@ -48,9 +48,10 @@ export default class Login extends React.Component {
         }
       }
     
-      getAssets = async (username, password, email, department, role, group) => {
+      async getAssets (username, password, email, department, role, profile_picture) {
         try {
-          const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {username: username, password: password, email: email, department: department, role: role, group: group});
+          console.log(username);
+          const response = await axios.post("http://localhost:4000/api/adduser", {username: username, password: password, email_address: email, department: department, role: role, profile_picture: profile_picture});
           console.log("response", response);
           if(response) {
             console.log("Login succeeded, display confirmation");
@@ -90,11 +91,8 @@ export default class Login extends React.Component {
                             <option value="admin">Admiin</option>
                         </Input>
                         <div></div>
-                        <p>Group</p>
-                        <Input name="group" type="select" onChange={this.handleChange} >
-                            <option value="kids">kids</option>
-                            <option value="docs">docs</option>
-                        </Input>
+                        <p>Profile Picture</p>
+                        <Input name="profile_picture" type="file" onChange={this.handleChange} />
                         <Button onClick={this.handleSubmit} style={{marginTop: "30px", marginLeft: "10px"}}>Add</Button>
                         {/* <Button style={{marginTop: "30px", marginLeft: "10px"}}>Update</Button>
                         <Button style={{marginTop: "30px", marginLeft: "10px"}}>Delete</Button> */}
