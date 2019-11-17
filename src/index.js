@@ -10,8 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 ReactDOM.render(
 <Router>
     <Route exact path="/login" component={Login} />
-    <Route path="/app" component={App} />
     <Route exact path="/"><Redirect to="/app"></Redirect></Route>
+    <Route path="/app" component={App} />
 </Router>
 
 , document.getElementById('root'));
