@@ -34,24 +34,32 @@ app.post('/api/authenticate', (req, res) => {
         res.status(200).json({
           token
         })
-      }else {res.status(401).json({
-        token: null
-      })}
+      }else {
+        console.log("Entered Password and Hash do not match!");
+        res.status(401).json({
+          sucess: false,
+          token: null,
+          err: 'Entered Password and Hash do not match!'
+        });
+      }
     })
 })
 
 app.post('/api/adduser', (req,res) =>{
-  console.log('test');
-    store
-    .createUser({
-      username: req.body.username,
-      password: req.body.password,
-      role: req.body.role,
-      department: req.body.department,
-      email_address: req.body.email_address,
-      profile_picture: req.body.profile_picture,
-    })
-    .then(() => res.sendStatus(200))
+  if (!req.body.username || !req.body.password || !req.body.role || !req.body.department || !req.body.email_address || !req.body.profile_picture){
+    res.sendStatus(404);
+  }else{
+      store
+      .createUser({
+        username: req.body.username,
+        password: req.body.password,
+        role: req.body.role,
+        department: req.body.department,
+        email_address: req.body.email_address,
+        profile_picture: req.body.profile_picture,
+      })
+      .then(() => res.sendStatus(200))
+  }
 })
 
 app.get('/', jwtMW, (req, res) => {

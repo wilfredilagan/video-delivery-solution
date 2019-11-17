@@ -2,13 +2,12 @@ import React from 'react';
 import './App.css';
 import Nav from './Navbar';
 import Main from './Main';
-import Login from './Login'
 import Admin from './Admin';
 import Asset from './Asset';
 import EditAsset from './EditAsset';
 import UpdateUsers from './UpdateUsers';
 import { Container, Row, Col } from 'reactstrap';
-import {Router, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import AuthHelperMethods from './AuthHelperMethods';
 import withAuth from './withAuth';
 
@@ -35,12 +34,12 @@ class App extends React.Component {
     return (
     <div className="App">
       <Container fluid>
-        <Row fluid>
+        <Row >
           <Col style={{backgroundColor:"#E7133D"}}>
-            <Nav fluid />
+            <Nav  />
           </Col>
         </Row>
-        <Row fluid>
+        <Row >
             <Route path="/app/" exact component={Main} />
             <Route path="/app/admin" exact component={Admin} />
             <Route path="/app/publishpointasset" exact component={Asset}/>

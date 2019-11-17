@@ -16,7 +16,10 @@ export default class AuthHelperMethods{
         if (this.loggedIn()){
             headers['Authorization'] = "Bearer" + this.getToken();
         }
+        
+        try {
 
+        
         const token = await axios({
             method: 'post',
             url: 'http://127.0.0.1:4000/api/authenticate', 
@@ -26,21 +29,23 @@ export default class AuthHelperMethods{
                 password: password
             }
         })
-        await this._checkStatus(token)
-        await this.setToken(token.data.token)
+        
+        this.setToken(token.data.token)
         return Promise.resolve(token);
+        }catch{
+        }
+        
 
     }
     loggedIn = () => {
         const token = this.getToken();
-        console.log(token);
+        console.log('token: ' + token);
         return !!token && !this.isTokenExpired(token);
     }
     
     isTokenExpired = token =>{
         try{
             const decoded = decode(token);
-            console.log(decoded);
             if (decoded.exp < Date.now() / 1000){
                 return true;
             } else return false;
@@ -69,8 +74,7 @@ export default class AuthHelperMethods{
         return answer;
     }
 
-    _checkStatus = (response) => {
-        console.log(response);
+    checkStatus = response => {
         // raises an error in case response status is not a success
         if (response.status >= 200 && response.status < 300) {
           // Success status lies between 200 to 300

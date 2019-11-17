@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import AuthHelperMethods from "./AuthHelperMethods";
-import { Router} from "react-router-dom";
 import { history } from "./history"
 
 /* A higher order component is frequently written as a function that returns a class. */

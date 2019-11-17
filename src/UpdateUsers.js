@@ -48,8 +48,10 @@ class UpdateUsers extends React.Component {
       }
     
       renderConfirmation = () => {
-        if (this.state.confirmation) {
+        if (this.state.confirmation === true) {
           return <div><p>User successfully added</p></div>
+        } else if (!!this.state.confirmation){
+          return <div><p>Please fill out all fields</p></div>
         }
       }
     
@@ -76,7 +78,7 @@ class UpdateUsers extends React.Component {
         return(
             <div className="col">
                 <Row>
-                    <Col sm="12" md={{ size: 2, offset: 5 }} style={{paddingTop: "2%"}}fluid>
+                    <Col sm="12" md={{ size: 2, offset: 5 }} style={{paddingTop: "2%"}}>
                         <p>Username</p>
                         <Input name="username" type="text" onChange={this.handleChange} />
                         <p>Password</p>

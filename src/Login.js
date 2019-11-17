@@ -32,7 +32,6 @@ export default class Login extends React.Component {
     if (this.Auth.loggedIn()){
       history.push('/app');
     }else{
-      console.log('test')
     }
   }
 
@@ -48,9 +47,8 @@ export default class Login extends React.Component {
     const response = await this.Auth.login(username,password)
 
     if (!response){
-      return alert("Sorry those credentials don't exist!");
+      return this.setState({error: true});
     }
-    console.log('push');
     return this.props.history.push("/app");
     /*console.log(username);
     console.log(password);
@@ -65,7 +63,7 @@ export default class Login extends React.Component {
 
   renderError = () => {
     if (this.state.error) {
-      return <div><p>Incorrect user name or password. Try again.</p></div>
+      return <div><p style={{textAlign: "center"}}>Incorrect user name or password. Try again.</p></div>
     }
   }
 
@@ -95,7 +93,9 @@ export default class Login extends React.Component {
               <Link to="/"><img src={Logo} alt="TVO Logo" className="float-left"/></Link>
             </Col>
             <Col>
-            <NavbarBrand href="/" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "30px"}}>Online Video Delivery Solution</NavbarBrand>
+            <NavbarBrand href="/" style={{ marginLeft: "20%", color: '#FFFFFF', fontSize: "30px"}}>Online Video Delivery Solution</NavbarBrand>
+            </Col>
+            <Col>
             </Col>
          </Navbar>
       </Col>   
@@ -103,22 +103,22 @@ export default class Login extends React.Component {
       <div className="col">
           {this.renderRedirect()}
           <Row>
-              <Col fluid>
+              <Col>
                   <p style={{textAlign: "left", fontSize: "30px"}}>Login</p>
               </Col>
           </Row>
           <Row>
-              <Col sm="12" md={{ size: 2, offset: 5 }} style={{paddingTop: "2%"}}fluid>
+              <Col sm="12" md={{ size: 2, offset: 5 }} style={{paddingTop: "2%"}}>
                   <p className="text-center">Username</p>
                   <Input name="username" type="text" onChange={this.handleChange} />
                   <p className="text-center">Password</p>
                   <Input name="password" type="password" onChange={this.handleChange} />
                   <div></div>
-                  <Button onClick={this.handleSubmit} style={{marginTop: "30px", textAlign: "center"}}>Submit</Button>
+                  <Button onClick={this.handleSubmit} style={{marginTop: "30px", marginLeft: "35%"}}>Submit</Button>
               </Col>
+              
           </Row>
           {this.renderError()}
-
         </div>
         </>
     )}
