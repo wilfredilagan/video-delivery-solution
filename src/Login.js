@@ -1,13 +1,20 @@
 import React from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import {
     Input,
     Button,
     Col,
-    Row } from 'reactstrap';
+    Row,
+  Navbar,
+NavbarBrand } from 'reactstrap';
+import AuthHelperMethods from './AuthHelperMethods'
+import { history } from "./history"
+import Logo from './TVO_Bug.png';
 
 export default class Login extends React.Component {
+
+    Auth = new AuthHelperMethods()
 
   constructor(props) {
     super(props);
@@ -21,18 +28,33 @@ export default class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillMount(){
+    if (this.Auth.loggedIn()){
+      history.push('/app');
+    }else{
+      console.log('test')
+    }
+  }
+
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const { username , password } = this.state;
-    console.log(username);
+    const response = await this.Auth.login(username,password)
+
+    if (!response){
+      return alert("Sorry those credentials don't exist!");
+    }
+    console.log('push');
+    return this.props.history.push("/app");
+    /*console.log(username);
     console.log(password);
-    this.getAssets(username, password);
+    this.getAssets(username, password);*/
   }
 
   renderRedirect = () => {
@@ -65,6 +87,19 @@ export default class Login extends React.Component {
 
   render(){
     return(
+      <>
+      <Row>
+      <Col style={{backgroundColor:"#E7133D"}}>
+        <Navbar expand="md">
+            <Col >    
+              <Link to="/"><img src={Logo} alt="TVO Logo" className="float-left"/></Link>
+            </Col>
+            <Col>
+            <NavbarBrand href="/" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "30px"}}>Online Video Delivery Solution</NavbarBrand>
+            </Col>
+         </Navbar>
+      </Col>   
+      </Row>
       <div className="col">
           {this.renderRedirect()}
           <Row>
@@ -76,14 +111,15 @@ export default class Login extends React.Component {
               <Col sm="12" md={{ size: 2, offset: 5 }} style={{paddingTop: "2%"}}fluid>
                   <p className="text-center">Username</p>
                   <Input name="username" type="text" onChange={this.handleChange} />
-                  <p>Password</p>
+                  <p className="text-center">Password</p>
                   <Input name="password" type="password" onChange={this.handleChange} />
                   <div></div>
-                  <Button onClick={this.handleSubmit} style={{marginTop: "30px"}}>Submit</Button>
+                  <Button onClick={this.handleSubmit} style={{marginTop: "30px", textAlign: "center"}}>Submit</Button>
               </Col>
           </Row>
           {this.renderError()}
-      </div>
-    )}
 
-}
+        </div>
+        </>
+    )}
+  }

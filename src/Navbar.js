@@ -15,14 +15,25 @@ import Logo from './TVO_Bug.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { NavLink, Link} from "react-router-dom";
+import AuthHelperMethods from "./AuthHelperMethods";
+import { history } from './history';
   
   export default class Navigation extends React.Component {
+    Auth = new AuthHelperMethods();
     constructor(props) {
       super(props);
       this.state = {
         isOpen: false,
       };
+       this.logoutClick = this.logoutClick.bind(this);
     }
+   
+
+    logoutClick(){
+      this.Auth.logout()
+      return history.push('/login');
+    }
+
     render() {
       return (
         <div>
@@ -36,8 +47,8 @@ import { NavLink, Link} from "react-router-dom";
             <Col>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                <NavLink to="/admin" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px"}}>Admin</NavLink>
-                <NavLink to="/login" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px", marginLeft: "15px"}}>Logout</NavLink>
+                <NavLink to="/app/admin" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px"}}>Admin</NavLink>
+                <NavLink to="/login" onClick= {this.logoutClick} style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px", marginLeft: "15px"}}>Logout</NavLink>
                 <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret style={{color: '#FFFFFF', fontSize: "16px"}}>
                 <FontAwesomeIcon icon={faSearch} size="lg" style={{color:'white', justifyContent: 'right', marginTop: '0px', marginLeft:'8px'}} /> 
@@ -45,7 +56,7 @@ import { NavLink, Link} from "react-router-dom";
                 <DropdownMenu right>
                     <div><Input></Input></div>
                     <div>
-                    <Link to="/searchResults"><Button>Search</Button></Link>
+                    <Link to="/app/searchResults"><Button>Search</Button></Link>
                     </div>
                 </DropdownMenu>
                 </UncontrolledDropdown>

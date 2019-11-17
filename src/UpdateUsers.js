@@ -5,8 +5,13 @@ import {
     Col,
     Row } from 'reactstrap';
 import axios from 'axios';
+import AuthHelperMethods from './AuthHelperMethods';
+import { history } from './history';
+import withAuth from './withAuth';
 
-export default class Login extends React.Component {
+class UpdateUsers extends React.Component {
+
+    Auth = new AuthHelperMethods();
 
     constructor(props) {
         super(props);
@@ -56,20 +61,20 @@ export default class Login extends React.Component {
           if(response) {
             console.log("Login succeeded, display confirmation");
             this.setState({confirmation: true});
+            setTimeout(() => {
+              history.push("/login");
+            }, 3000);
           }
         } catch(error) {
           console.log("error", error);
         }
       };
+
+      
     
     render(){
         return(
             <div className="col">
-                <Row>
-                    <Col fluid>
-                        <p style={{textAlign: "left", fontSize: "30px"}}>Admin</p>
-                    </Col>
-                </Row>
                 <Row>
                     <Col sm="12" md={{ size: 2, offset: 5 }} style={{paddingTop: "2%"}}fluid>
                         <p>Username</p>
@@ -90,7 +95,6 @@ export default class Login extends React.Component {
                             <option value="marketing">Marketing</option>
                             <option value="admin">Admiin</option>
                         </Input>
-                        <div></div>
                         <p>Profile Picture</p>
                         <Input name="profile_picture" type="file" onChange={this.handleChange} />
                         <Button onClick={this.handleSubmit} style={{marginTop: "30px", marginLeft: "10px"}}>Add</Button>
@@ -103,3 +107,5 @@ export default class Login extends React.Component {
         )}
 
 }
+
+export default withAuth(UpdateUsers);
