@@ -45,23 +45,31 @@ exports.up = function(knex, Promise) {
                 .on('series')
     })
 
-    .createTable('pub_point_asset', function(t){
-            t.increments('pub_point_asset_id').primary()
-            t.string('pub_point_title').notNullable()
-            t.string('pub_point_desc').notNullable()
-            t.string('pub_point_tags').notNullable()
-            t.string('video_id').notNullable()
-            t.foreign('video_id').references('video_id')
-                .on('video_assets')
+    .createTable('pub_point_metadata', function(t){
+        t.increments('pub_point_metadata_id').primary()
+        t.string('pub_point_metadata_title').notNullable()
+        t.string('pub_point_metadata_desc').notNullable()
+        t.string('pub_point_metadata_tags').notNullable()
     })
-    
-    .createTable('pub_dates', function(t){
-            t.increments('pub_dates_id').primary()
-            t.integer('pub_point_asset_id').notNullable()
-            t.timestamp('pub_date', {useTz: true}).notNullable()
-            t.timestamp('kill_date', {useTz: true}).notNullable()
-            t.foreign('pub_point_asset_id').references('pub_point_asset_id')
-                .on('pub_point_asset')
+
+    .createTable('pub_point_schedule', function(t){
+        t.increments('pub_point_schedule_id').primary()
+        t.timestamp('pub_point_schedule_pub_date', {useTz: true}).notNullable()
+        t.timestamp('pub_point_schedule_kill_date', {useTz: true}).notNullable()
+    })
+
+    .createTable('pub_point_asset', function(t){
+        t.increments('pub_point_asset_id').primary()
+        t.string('publish_point').notNullable()
+        t.string('video_id').notNullable()
+        t.integer('pub_point_metadata_id').notNullable()
+        t.integer('pub_point_schedule_id').notNullable()
+        t.foreign('video_id').references('video_id')
+            .on('video_assets')
+        t.foreign('pub_point_metadata_id').references('pub_point_metadata_id')
+            .on('pub_point_metadata')
+        t.foreign('pub_point_schedule_id').references('pub_point_schedule_id')
+            .on('pub_point_schedule')
         })
 };
 
