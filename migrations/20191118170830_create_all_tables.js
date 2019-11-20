@@ -2,8 +2,8 @@
 // will automatically increment as well as updated_at and created_at fields using the t.timestamps method.
 
 //creae schema
-exports.up = function(knex, Promise) {
-    return knex.schema
+exports.up = async function(knex, Promise) {
+    return await knex.schema
     .createTable('users', function (t) {
         t.increments('user_id').primary()
         t.string('salt').notNullable()
@@ -70,7 +70,26 @@ exports.up = function(knex, Promise) {
             .on('pub_point_metadata')
         t.foreign('pub_point_schedule_id').references('pub_point_schedule_id')
             .on('pub_point_schedule')
-        })
+    })
+    
+    .createTable('cart', function(t){
+        t.increments('cart_id').primary()
+        t.integer('user_id').notNullable()
+        t.string('publish_status').notNullable()
+        t.foreign('user_id').references('user_id')
+            .on('users')
+            t.timestamps(true, true)
+    })
+
+    .createTable('cart_item', function(t){
+        t.increments('cart_item_id').primary()
+        t.integer('cart_id').notNullable()
+        t.integer('pub_point_asset_id').notNullable()
+        t.foreign('cart_id').references('cart_id')
+            .on('cart')
+        t.foreign('pub_point_asset_id').references('pub_point_asset_id')
+            .on('pub_point_asset')
+    })
 };
 
 
