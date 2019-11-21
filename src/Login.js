@@ -116,7 +116,6 @@ export default class Login extends React.Component {
                   <div></div>
                   <Button onClick={this.handleSubmit} style={{marginTop: "30px", marginLeft: "35%"}}>Submit</Button>
               </Col>
-              
           </Row>
           {this.renderError()}
         </div>

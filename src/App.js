@@ -2,17 +2,15 @@ import React from 'react';
 import './App.css';
 import Nav from './Navbar';
 import Main from './Main';
-import Admin from './Admin';
-import Asset from './Asset';
-import EditAsset from './EditAsset';
-import UpdateUsers from './UpdateUsers';
+import Users from './Users';
+import UserEdit from './UserEdit';
+import Metadata from './Metadata';
+import MetadataEdit from './MetadataEdit';
+import Schedule from './Schedule';
 import { Container, Row, Col } from 'reactstrap';
 import {Route} from "react-router-dom";
 import AuthHelperMethods from './AuthHelperMethods';
 import withAuth from './withAuth';
-
-
-
 
 class App extends React.Component {
   Auth = new AuthHelperMethods();
@@ -23,7 +21,6 @@ class App extends React.Component {
       isOpen: false,
     };
   }
-  
 
   _handleLogout = () => {
     this.Auth.logout()
@@ -41,10 +38,11 @@ class App extends React.Component {
         </Row>
         <Row >
             <Route path="/app/" exact component={Main} />
-            <Route path="/app/admin" exact component={Admin} />
-            <Route path="/app/publishpointasset" exact component={Asset}/>
-            <Route path="/app/asset" exact component={EditAsset} />
-            <Route path="/app/updateusers" exact component={UpdateUsers}/>
+            <Route path="/app/users" exact component={Users} />
+            <Route path="/app/useredit" exact component={UserEdit} />
+            <Route path="/app/metadata" exact component={Metadata}/>
+            <Route path="/app/metadatedit" exact component={MetadataEdit}/>
+            <Route path="/app/schedule" exact component={Schedule}/>
         </Row>
       </Container>
     </div>

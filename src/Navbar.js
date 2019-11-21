@@ -46,7 +46,7 @@ import { history } from './history';
             <Col>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
-                  <NavLink to="/app/admin" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px"}}>Admin</NavLink>
+                  <NavLink to="/app/users" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px"}}>Admin</NavLink>
                   <NavLink to="/login" onClick= {this.logoutClick} style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px", marginLeft: "15px"}}>Logout</NavLink>
                   <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret style={{color: '#FFFFFF', fontSize: "16px"}}>
