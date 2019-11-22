@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import ReactTable from 'react-table'
+import ReactTable from 'react-table';
+import { NavLink, Link} from "react-router-dom";
 import EditIcon from '@material-ui/icons/Edit';
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
 class Metadata extends Component {
   constructor() {
@@ -73,6 +74,9 @@ class Metadata extends Component {
     return (
       <div className="col">
          <p style={{textAlign: "left", fontSize: "30px"}}>Metadata</p>
+         <NavLink to="/app/metadatedit" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add</NavLink>
+         &nbsp;&nbsp;&nbsp;&nbsp;
+         <NavLink to="/app" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Save</NavLink>
         <ReactTable
           data={data}
           columns={columns}

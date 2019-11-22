@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    Input,
-    Button,
-    Col,
-    Row } from 'reactstrap';
+import {Input, Button, Col, Row } from 'reactstrap';
 
 export default class Login extends React.Component {
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Row} from 'reactstrap';
 import ReactTable from 'react-table'
+import { NavLink, Link} from "react-router-dom";
 import 'react-table/react-table.css';
-import ScheduleOutlinedIcon from '@material-ui/icons/ScheduleOutlined';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import CreateIcon from '@material-ui/icons/Create';
 
 export default class Main extends React.Component {
   constructor() {
@@ -339,13 +339,12 @@ export default class Main extends React.Component {
   }
 
   handleMetadataClick = (value) => {
-    console.log(value)
+    console.log('Asset ' + value + ' sent to metadata edit component')
     return this.props.history.push("/app/metadata");
   };
 
-  handleScheduleClick = (value) => {
-    console.log(value)
-    return this.props.history.push("/app/schedule");
+  handleScheduleClick = () => {
+    console.log('Update schedule link was clicked');
   };
 
   render() {
@@ -374,12 +373,10 @@ export default class Main extends React.Component {
       accessor: 'actions',
       width: 90,
       Cell: row => (
-        row.original.status === 'Not Active' 
-        ? <span></span>
-        : <span style={{cursor: 'pointer'}}>
-            <ScheduleOutlinedIcon style={{ fontSize: 18 }} onClick={() => this.handleScheduleClick(row.original.id)}></ScheduleOutlinedIcon>
+        <span>
+            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => this.handleMetadataClick(row.original.id)}></CreateIcon>
             &nbsp;&nbsp;&nbsp;
-            <DescriptionOutlinedIcon style={{ fontSize: 18 }} onClick={() => this.handleMetadataClick(row.original.id)}></DescriptionOutlinedIcon>
+            <input type='checkbox' />
           </span>
         )
       }
@@ -387,6 +384,9 @@ export default class Main extends React.Component {
     return(   
         <div className="col">
             <p style={{textAlign: "left", fontSize: "30px"}}>Recent Items</p>
+            <NavLink to="/app/schedule" style={{justifyContent: 'center', color: 'black', fontSize: "20px"}} onClick={() => this.handleScheduleClick()}>Update Schedule</NavLink>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <NavLink to="/app/cart" style={{justifyContent: 'center', color: 'black', fontSize: "20px"}}>View Cart</NavLink>
             <ReactTable
               data={data}
               columns={columns}

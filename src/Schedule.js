@@ -4,6 +4,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import 'react-table/react-table.css'
 import { Input, Button, Col, Row } from 'reactstrap';
+import { NavLink, Link} from "react-router-dom";
 
 class Schedule extends Component {
   constructor() {
@@ -113,7 +114,7 @@ class Schedule extends Component {
             <Button >Add</Button>
           </Col> 
         </Row>
-
+            <NavLink to="/app/cart" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add to Cart</NavLink>
         <ReactTable
           data={data}
           columns={columns}
