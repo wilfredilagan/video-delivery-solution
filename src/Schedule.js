@@ -3,33 +3,43 @@ import ReactTable from 'react-table'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import 'react-table/react-table.css'
-import {Link} from "react-router-dom";
+import { Input, Button, Col, Row } from 'reactstrap';
+import { NavLink, Link} from "react-router-dom";
 
-class Asset extends Component {
+class Schedule extends Component {
   constructor() {
     super();
     this.state = {myRows: [
       {
         platform: 'Brightcove / TVOKids',
-        title: 'Pups Save the Land Pirates',
-        description: 'Pirates Alex, Julia, Julius and Chick-ARR-letta, are sent sailing into the desert and become lost!',
         start: '2019-05-22 23:30',
-        end: '2022-05-22 23:30'
+        end: '2019-06-22 23:30'
+      },
+      {
+        platform: 'Brightcove / TVOKids',
+        start: '2019-07-22 23:30',
+        end: '2022-08-22 23:30'
+      },
+      {
+        platform: 'Brightcove / TVOKids',
+        start: '2019-09-22 23:30',
+        end: '2022-10-22 23:30'
       },
       {
         platform: 'Podcast / Kids',
-        title: 'Pups Save the Pirates',
-        description: 'The Pirates are sent sailing into the desert and become lost!',
         start: '2018-05-22 23:30',
         end: '2021-05-22 23:30'
         
       },
       {
         platform: 'YouTube / Paw Patrol',
-        title: 'Pups Save the Day',
-        description: 'Some pirates go sailing and cannot find their way home!',
         start: '2019-05-22 23:30',
         end: '2022-05-22 23:30'
+      },
+      {
+        platform: 'YouTube / Paw Patrol',
+        start: '2019-08-22 23:30',
+        end: '2022-11-22 23:30'
       }
     ]}
   }
@@ -38,8 +48,6 @@ class Asset extends Component {
     this.setState({myRows: [
       {
         platform: 'Bell Mobility / Kids',
-        title: 'Pups Save the Land Pirates',
-        description: 'Pirates Alex, Julia, Julius and Chick-ARR-letta, are sent sailing into the desert and become lost!',
         start: '2017-05-22 23:30',
         end: '2099-05-22 23:30'
         
@@ -57,14 +65,6 @@ class Asset extends Component {
       Header: 'Platform',
       accessor: 'platform',
     },
-   {
-      Header: 'Title',
-      accessor: 'title',
-    },
-    {
-      Header: 'Description',
-      accessor: 'description',
-    },
     {
       Header: 'Start',
       accessor: 'start',
@@ -79,7 +79,7 @@ class Asset extends Component {
       width: 90,
       Cell: row => (
         <>
-          <Link to="/asset"><EditIcon style={{ fontSize: 18 }} onClick={() => this.handleEditClick(row.original.platform)}></EditIcon></Link>
+          <EditIcon style={{ fontSize: 18 }} onClick={() => this.handleEditClick(row.original.platform)}></EditIcon>
           &nbsp;&nbsp;&nbsp;
           <DeleteIcon style={{ fontSize: 18 }} onClick={() => this.handleDeleteClick(row.original.platform)} />
         </>
@@ -93,20 +93,41 @@ class Asset extends Component {
 
     return (
       <div className="col">
+         <p style={{textAlign: "left", fontSize: "30px"}}>Schedule</p>
+
+        <Row style={{paddingBottom: "2%"}}>
+          <Col md={2}>      
+            <Input name="pubpoint" placeholder="Publish Point" type="select">
+              <option value="cad">Brightcove / tvo.org</option>
+              <option value="cad">Brightcove / TVO/Kids</option>
+              <option value="cad">Podcast</option>
+              <option value="tvokids">YouTube</option>
+            </Input>
+          </Col> 
+          <Col md={2}> 
+            <Input placeholder="Start" name="start" type="text" />
+          </Col> 
+          <Col md={2}> 
+            <Input placeholder="End" name="end" type="text" />
+          </Col> 
+          <Col md={1}> 
+            <Button >Add</Button>
+          </Col> 
+        </Row>
+            <NavLink to="/app/cart" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add to Cart</NavLink>
         <ReactTable
           data={data}
           columns={columns}
           sortable={true}
           className='-striped -highlight'
-          //pages={'3'} // Display the total number of pages
-          //loading={'Loading....'} // Display the loading overlay when we need it
         />
         <br />
         <button onClick={() => this.handleStateChange()}>Update State</button>
       </div>
+       
     )
   }
 
 }
 
-export default Asset;
+export default Schedule;

@@ -9,7 +9,7 @@ import AuthHelperMethods from './AuthHelperMethods';
 import { history } from './history';
 import withAuth from './withAuth';
 
-class UpdateUsers extends React.Component {
+class UsersEdit extends React.Component {
 
     Auth = new AuthHelperMethods();
 
@@ -72,8 +72,6 @@ class UpdateUsers extends React.Component {
         }
       };
 
-      
-    
     render(){
         return(
             <div className="col">
@@ -110,4 +108,4 @@ class UpdateUsers extends React.Component {
 
 }
 
-export default withAuth(UpdateUsers);
+export default withAuth(UsersEdit);
