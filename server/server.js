@@ -6,6 +6,28 @@ const app = express()
 const cors = require ('cors')
 const jwt = require('jsonwebtoken');
 const exjwt = require('express-jwt');
+const { postgraphile } = require("postgraphile");
+/*const expressGraphQL = require('express-graphql');
+const schema = require('./schema');*/
+
+app.use(
+  postgraphile(
+    process.env.DATABASE_URL || "postgres://postgres:sandman@localhost:5432/vds",
+    "public",
+    {
+      watchPg: true,
+      graphiql: true,
+      enhanceGraphiql: true,
+      graphqlRoute: '/gql/graphql',
+      graphiqlRoute: '/gql/graphiql',
+      skipPlugins: [
+        require('graphile-build').NodePlugin,
+        require('graphile-build-pg').PgRowByUniqueConstraint,
+      ],
+    }
+    
+  )
+);
 
 app.use(cors());
 app.use(express.static('public'))
@@ -19,6 +41,7 @@ app.use((req, res, next) => {
 const jwtMW = exjwt({
   secret: 'keyboard cat 4 ever'
 });
+
 
 
 
