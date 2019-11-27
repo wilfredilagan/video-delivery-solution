@@ -1,19 +1,8 @@
 import React from 'react';
 import {Input, Button, Col, Row } from 'reactstrap';
 
-export default class Login extends React.Component {
+const MetadataEdit = (props) => {
 
-  handleCancelClick = (value) => {
-    console.log('Cancel')
-    return this.props.history.push("/app/metadata");
-  };
-
-  handleSubmitClick = (value) => {
-    console.log('Submit')
-    return this.props.history.push("/app/metadata");
-  };
-
-  render(){
       return(
           <div className="col">
               <Row>
@@ -22,23 +11,23 @@ export default class Login extends React.Component {
                 </Col>
               </Row>
               <Row>
-              <Col sm="12" md={{ size: 2, offset: 5 }} style={{paddingTop: "2%"}}>
+              <Col sm="12" md={{ size: 3, offset: 5 }} style={{paddingTop: "2%"}}>
                 <p>Publish Point</p>
-                <Input></Input>
+                <Input value={props.platform} disabled></Input>
                 <p>Title</p>
-                <Input ></Input>
+                <Input size="60" value={props.title}></Input>
                 <div></div>
                 <p>Description</p>
-                <Input></Input>
+                <Input value={props.description}></Input>
                 <p>Tags</p>
                 <Input>
                 </Input>
-                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => this.handleCancelClick()}>Cancel</Button>
-                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => this.handleSubmitClick()}>Submit</Button>
+                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.handleMetadataFormCancel()}>Cancel</Button>
+                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.handleMetadataFormSubmit()}>Submit</Button>
                 </Col>
               </Row>
           </div>
-      )}
-
-
+      )
 }
+
+export default MetadataEdit;
