@@ -19,7 +19,7 @@ app.use(
       graphiql: true,
       enhanceGraphiql: true,
       graphqlRoute: '/gql/graphql',
-      graphiqlRoute: '/gql/graphiql',
+      graphiqlRoute: '',
       skipPlugins: [
         require('graphile-build').NodePlugin,
         require('graphile-build-pg').PgRowByUniqueConstraint,
