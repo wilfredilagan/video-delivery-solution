@@ -13,17 +13,16 @@ const MetadataEdit = (props) => {
               <Row>
               <Col sm="12" md={{ size: 3, offset: 5 }} style={{paddingTop: "2%"}}>
                 <p>Publish Point</p>
-                <Input value={props.platform} disabled></Input>
+                <Input type='text' name='platform' value={props.metadataForm.platform} onChange={props.onChangeMetadata} disabled />
                 <p>Title</p>
-                <Input size="60" value={props.title}></Input>
+                <Input type='text' name='title' value={props.metadataForm.title} onChange={props.onChangeMetadata} size="60" />
                 <div></div>
                 <p>Description</p>
-                <Input value={props.description}></Input>
+                <Input type='text' name='description' value={props.metadataForm.description} onChange={props.onChangeMetadata} />
                 <p>Tags</p>
-                <Input>
-                </Input>
+                <Input type='text' name='tags' />
                 <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.handleMetadataFormCancel()}>Cancel</Button>
-                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.handleMetadataFormSubmit()}>Submit</Button>
+                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.submitMetadata()}>Submit</Button>
                 </Col>
               </Row>
           </div>

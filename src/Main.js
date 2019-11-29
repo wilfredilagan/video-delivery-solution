@@ -32,9 +32,9 @@ const Main = (props) => {
       width: 90,
       Cell: row => (
         <span>
-            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => props.handleMetadataClick(row.original.id)}></CreateIcon>
+            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => props.gotoMetadata(row.original.id)}></CreateIcon>
             &nbsp;&nbsp;&nbsp;
-            <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => props.handleScheduleClick(row.original.id)}></ScheduleIcon>
+            <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => props.gotoSchedule(row.original.id)}></ScheduleIcon>
           </span>
         )
       }

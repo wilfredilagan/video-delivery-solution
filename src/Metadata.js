@@ -21,7 +21,7 @@ const Metadata = (props) => {
     accessor: 'actions',
     width: 90,
     Cell: row => (
-      <EditIcon style={{ fontSize: 18 }} onClick={() => props.handleMetadataEditClick(row.original.id, row.original.platform, row.original.title, row.original.description)}></EditIcon>
+      <EditIcon style={{ fontSize: 18 }} onClick={() => props.editMetadata(row.original.id)}></EditIcon>
     ),
     style: {
       cursor: 'pointer', 
@@ -33,8 +33,6 @@ const Metadata = (props) => {
     <div className="col">
       <p style={{textAlign: "left", fontSize: "30px"}}>Metadata</p>
       <NavLink to="/app/metadatedit" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add</NavLink>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <NavLink to="/app" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Save</NavLink>
       <ReactTable
         data={props.metadata}
         columns={columns}
