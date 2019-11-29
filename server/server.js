@@ -7,8 +7,13 @@ const cors = require ('cors')
 const jwt = require('jsonwebtoken');
 const exjwt = require('express-jwt');
 const { postgraphile } = require("postgraphile");
-/*const expressGraphQL = require('express-graphql');
-const schema = require('./schema');*/
+const PgSimplifyInflectorPlugin = require("@graphile-contrib/pg-simplify-inflector");
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
+  next();
+});
+
 
 app.use(
   postgraphile(
@@ -24,6 +29,14 @@ app.use(
         require('graphile-build').NodePlugin,
         require('graphile-build-pg').PgRowByUniqueConstraint,
       ],
+      simpleCollections: 'only',
+      appendPlugins: [
+        PgSimplifyInflectorPlugin
+      ],
+      graphileBuildOptions: {
+        pgOmitListSuffix: true
+      },
+      enableCors: true
     }
     
   )

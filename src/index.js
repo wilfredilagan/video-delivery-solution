@@ -6,6 +6,50 @@ import App from './App';
 import Login from './Login';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {gql} from 'apollo-boost';
+import {ApolloClient} from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+
+const cache = new InMemoryCache();
+const link = new HttpLink({
+    uri: 'http://127.0.0.1:4000/gql/graphql'
+})
+
+const client = new ApolloClient({
+    cache,
+    link
+  });
+  
+
+const getVideoAssets = gql`
+    query MyQuery {
+        videoAssets {
+        videoId
+        mainTitle
+        mainDescription
+        lastKillDate
+        earlyPubDate
+        seriesId
+        status
+        pubPointAssetsByVideoId {
+            publishPoint
+            pubPointMetadata {
+            pubPointMetadataDesc
+            pubPointMetadataTitle
+            }
+            pubPointSchedule {
+            pubPointSchedulePubDate
+            pubPointScheduleKillDate
+            }
+        }
+        }
+    }`
+
+client
+  .query({
+    query: getVideoAssets})
+  .then (result => console.log(result))
 
 ReactDOM.render(
 <Router>

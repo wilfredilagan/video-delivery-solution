@@ -13,6 +13,22 @@ import {Route} from "react-router-dom";
 import AuthHelperMethods from './AuthHelperMethods';
 import withAuth from './withAuth';
 
+/*import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloProvider } from '@apollo/react-hooks';*/
+//import Query from './Query';
+
+/*import {useQuery} from '@apollo/react-hooks'*/
+
+
+
+
+/*function getVideoAssetsQuery (){
+  const data = useQuery(getVideoAssets);
+}*/
+
+
+
 class App extends React.Component {
   Auth = new AuthHelperMethods();
 
@@ -27,11 +43,14 @@ class App extends React.Component {
     this.Auth.logout()
     return this.props.history.push("/login");
     }
+
   
   render(){
+
     return (
     <div className="App">
       <Container fluid>
+
         <Row >
           <Col style={{backgroundColor:"#E7133D"}}>
             <Nav  />
