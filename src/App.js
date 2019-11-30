@@ -22,9 +22,11 @@ class App extends React.Component {
     this.state = {
       isOpen: false,
       metadataForm: {
-        platform: 'test',
-        title: 'test',
-        description: 'test'
+        id: '',
+        platform: '',
+        title: '',
+        description: '',
+        tags: ''
       },
       data: [
         {
@@ -141,9 +143,7 @@ class App extends React.Component {
           title: 'The case of the missing bike',
           status: 'Not Active',
           start: '',
-          end: '',
-          metadata: [],
-          schedule: []
+          end: ''
         },
         {
           id: '5678567',
@@ -151,9 +151,7 @@ class App extends React.Component {
           title: 'Tigers',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '5634373',
@@ -161,9 +159,7 @@ class App extends React.Component {
           title: 'Project Orange',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2029-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2029-05-22 23:30'
         },
         {
           id: '1323876',
@@ -171,9 +167,7 @@ class App extends React.Component {
           title: 'Pups To The Rescue',
           status: 'Active',
           start: '2018-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '5678567',
@@ -181,9 +175,7 @@ class App extends React.Component {
           title: 'Wolf Hawks',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2099-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2099-05-22 23:30'
         },
         {
           id: '1323876',
@@ -191,9 +183,7 @@ class App extends React.Component {
           title: 'Dumpster Diving',
           status: 'Active',
           start: '2017-05-22 23:30',
-          end: '2021-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2021-05-22 23:30'
         },
         {
           id: '1323876',
@@ -201,9 +191,7 @@ class App extends React.Component {
           title: 'Search Partly',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '2355722',
@@ -211,9 +199,7 @@ class App extends React.Component {
           title: 'Elephants',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2020-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2020-05-22 23:30'
         },
         {
           id: '2345674',
@@ -221,9 +207,7 @@ class App extends React.Component {
           title: 'Pups Take Charge',
           status: 'Active',
           start: '2021-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '1323876',
@@ -231,9 +215,7 @@ class App extends React.Component {
           title: 'Compubot',
           status: 'Active',
           start: '2010-05-22 23:30',
-          end: '2045-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2045-05-22 23:30'
         },
         {
           id: '8765432',
@@ -241,9 +223,7 @@ class App extends React.Component {
           title: 'The case of the missing bike',
           status: 'Not Active',
           start: '',
-          end: '',
-          metadata: [],
-          schedule: []
+          end: ''
         },
         {
           id: '5678567',
@@ -251,9 +231,7 @@ class App extends React.Component {
           title: 'Tigers',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '5634373',
@@ -261,9 +239,7 @@ class App extends React.Component {
           title: 'Project Orange',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2022-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2022-05-22 23:30'
         },
         {
           id: '1323876',
@@ -271,9 +247,7 @@ class App extends React.Component {
           title: 'Pups To The Rescue',
           status: 'Active',
           start: '2011-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '5678567',
@@ -281,9 +255,7 @@ class App extends React.Component {
           title: 'Wolf Hawks',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2032-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2032-05-22 23:30'
         },
         {
           id: '1323876',
@@ -291,9 +263,7 @@ class App extends React.Component {
           title: 'Dumpster Diving',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '1323876',
@@ -301,9 +271,7 @@ class App extends React.Component {
           title: 'Search Partly',
           status: 'Active',
           start: '2017-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         },
         {
           id: '2355722222',
@@ -311,9 +279,7 @@ class App extends React.Component {
           title: 'Elephants',
           status: 'Active',
           start: '2019-05-22 23:30',
-          end: '2030-05-22 23:30',
-          metadata: [],
-          schedule: []
+          end: '2030-05-22 23:30'
         }
       ]
     }; //End of state
@@ -352,7 +318,8 @@ class App extends React.Component {
         data.metadata.forEach((metadata) => {
           if(metadata.id === id) {
             this.metadata = metadata;
-            console.log(metadata);
+            console.log(this.metadata);
+            this.setState({metadataForm: metadata});
           }
         });
       }
@@ -361,15 +328,26 @@ class App extends React.Component {
   };
 
   onChangeMetadata = (event) => {
-    //console.log(event.target.value);
+    console.log(this.state);
     this.setState({
-      metadataForm: {[event.target.name]: event.target.value}
+      metadataForm: {...this.state.metadataForm,
+      [event.target.name]: event.target.value}
     });
+    console.log(this.state);
   }
 
-  submitMetadata = (value) => {
+  submitMetadata = (metadataForm) => {
     console.log('submitMetadata')
-    console.log(value)
+    this.state.data.forEach((data) => {
+      if(typeof data.metadata != 'undefined') {
+        data.metadata.forEach((metadata) => {
+          if(metadata.id === metadataForm.id) {
+            this.setState({metadata: metadataForm});
+          }
+        });
+      }
+    });
+    console.log(this.state)
     this.props.history.push("/app/metadata");
   };
 
@@ -402,7 +380,7 @@ class App extends React.Component {
             <Route path="/app/users" exact component={Users} />
             <Route path="/app/useredit" exact component={UserEdit} />
             <Route exact path="/app/metadata" render={() => <Metadata metadata={this.metadata} editMetadata={this.editMetadata} />} />
-            <Route exact path="/app/metadatedit" render={() => <MetadataEdit onChangeMetadata={this.onChangeMetadata} metadataForm={this.state.metadataForm} />} />
+            <Route exact path="/app/metadatedit" render={() => <MetadataEdit onChangeMetadata={this.onChangeMetadata} metadataForm={this.state.metadataForm} submitMetadata={this.submitMetadata} />} />
             <Route exact path="/app/schedule" render={() => <Schedule schedule={this.schedule} handleScheduleEditClick={this.handleScheduleEditClick} handleScheduleDeleteClick={this.handleScheduleDeleteClick} />} />
             <Route path="/app/cart" exact component={Cart}/>
         </Row>

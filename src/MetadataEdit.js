@@ -20,9 +20,9 @@ const MetadataEdit = (props) => {
                 <p>Description</p>
                 <Input type='text' name='description' value={props.metadataForm.description} onChange={props.onChangeMetadata} />
                 <p>Tags</p>
-                <Input type='text' name='tags' />
+                <Input type='text' name='tags' value={props.metadataForm.tags} onChange={props.onChangeMetadata}/>
                 <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.handleMetadataFormCancel()}>Cancel</Button>
-                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.submitMetadata()}>Submit</Button>
+                <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.submitMetadata(props.metadataForm)}>Submit</Button>
                 </Col>
               </Row>
           </div>
