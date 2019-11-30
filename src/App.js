@@ -13,6 +13,9 @@ import {Route} from "react-router-dom";
 import AuthHelperMethods from './AuthHelperMethods';
 import withAuth from './withAuth';
 
+
+
+
 class App extends React.Component {
   Auth = new AuthHelperMethods();
 
@@ -289,6 +292,7 @@ class App extends React.Component {
     this.Auth.logout()
     return this.props.history.push("/login");
     }
+
   
   gotoMetadata = (id) => {
     this.state.data.forEach((data)=>{
@@ -367,6 +371,7 @@ class App extends React.Component {
   }
 
   render(){
+
     return (
     <div className="App">
       <Container fluid>

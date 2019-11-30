@@ -6,6 +6,41 @@ const app = express()
 const cors = require ('cors')
 const jwt = require('jsonwebtoken');
 const exjwt = require('express-jwt');
+const { postgraphile } = require("postgraphile");
+const PgSimplifyInflectorPlugin = require("@graphile-contrib/pg-simplify-inflector");
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
+  next();
+});
+
+
+app.use(
+  postgraphile(
+    process.env.DATABASE_URL || "postgres://postgres:sandman@localhost:5432/vds",
+    "public",
+    {
+      watchPg: true,
+      graphiql: true,
+      enhanceGraphiql: true,
+      graphqlRoute: '/gql/graphql',
+      graphiqlRoute: '',
+      skipPlugins: [
+        require('graphile-build').NodePlugin,
+        require('graphile-build-pg').PgRowByUniqueConstraint,
+      ],
+      simpleCollections: 'only',
+      appendPlugins: [
+        PgSimplifyInflectorPlugin
+      ],
+      graphileBuildOptions: {
+        pgOmitListSuffix: true
+      },
+      enableCors: true
+    }
+    
+  )
+);
 
 app.use(cors());
 app.use(express.static('public'))
@@ -19,6 +54,7 @@ app.use((req, res, next) => {
 const jwtMW = exjwt({
   secret: 'keyboard cat 4 ever'
 });
+
 
 
 
