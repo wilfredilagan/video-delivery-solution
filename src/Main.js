@@ -31,23 +31,8 @@ const getVideoAssets = gql`
         }
     }`
 
-
-  const GetVideoAssetsQuery = () => {
-    const { loading, error, data } = useQuery(getVideoAssets);
-    if (error) return <p>Error...</p>;
-    if (loading || !data) return <p>Fetching...</p>;
-    console.log(data.videoAssets);
-    return  <ReactTable
-      data={data.videoAssets}
-      columns={columns}
-      sortable={true}
-      className='-striped -highlight'
-    />
-  }
-
 const Main = (props) => {
-
-      const columns = [{
+  const columns = [{
     Header: 'ID',
     accessor: 'videoId',
     },{
@@ -78,6 +63,20 @@ const Main = (props) => {
         )
       }
     ]
+
+const GetVideoAssetsQuery = () => {
+  const { loading, error, data } = useQuery(getVideoAssets);
+  if (error) return <p>Error...</p>;
+  if (loading || !data) return <p>Fetching...</p>;
+  console.log(data.videoAssets);
+  return  <ReactTable
+    data={data.videoAssets}
+    columns={columns}
+    sortable={true}
+    className='-striped -highlight'
+  />
+}
+
     return(   
         <div className="col">
             <p style={{textAlign: "left", fontSize: "30px"}}>Recent Items</p>
