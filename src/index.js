@@ -10,6 +10,7 @@ import {gql} from 'apollo-boost';
 import {ApolloClient} from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -22,7 +23,7 @@ const client = new ApolloClient({
   });
   
 
-const getVideoAssets = gql`
+/*const getVideoAssets = gql`
     query MyQuery {
         videoAssets {
         videoId
@@ -49,14 +50,16 @@ const getVideoAssets = gql`
 client
   .query({
     query: getVideoAssets})
-  .then (result => console.log(result))
+  .then (result => console.log(result))*/
 
 ReactDOM.render(
-<Router>
-    <Route exact path="/login" component={Login} />
-    <Route exact path="/"><Redirect to="/app"></Redirect></Route>
-    <Route path="/app" component={App} />
-</Router>
+<ApolloProvider client={client}>
+  <Router>
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/"><Redirect to="/app"></Redirect></Route>
+      <Route path="/app" component={App} />
+  </Router>
+</ApolloProvider>
 
 , document.getElementById('root'));
 

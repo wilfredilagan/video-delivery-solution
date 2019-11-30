@@ -13,19 +13,6 @@ import {Route} from "react-router-dom";
 import AuthHelperMethods from './AuthHelperMethods';
 import withAuth from './withAuth';
 
-/*import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloProvider } from '@apollo/react-hooks';*/
-//import Query from './Query';
-
-/*import {useQuery} from '@apollo/react-hooks'*/
-
-
-
-
-/*function getVideoAssetsQuery (){
-  const data = useQuery(getVideoAssets);
-}*/
 
 
 
@@ -50,7 +37,6 @@ class App extends React.Component {
     return (
     <div className="App">
       <Container fluid>
-
         <Row >
           <Col style={{backgroundColor:"#E7133D"}}>
             <Nav  />
