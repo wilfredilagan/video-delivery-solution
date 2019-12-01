@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import './App.css';
 import Nav from './Navbar';
 import Main from './Main';
@@ -12,14 +12,22 @@ import { Container, Row, Col } from 'reactstrap';
 import {Route} from "react-router-dom";
 import AuthHelperMethods from './AuthHelperMethods';
 import withAuth from './withAuth';
+import UserContext from './UserContext';
 
 
+    /*<Route exact path="/app/metadatedit" render={() => <MetadataEdit onChangeMetadata={this.onChangeMetadata} metadataForm={this.state.metadataForm} submitMetadata={this.submitMetadata} />} />
+    <Route exact path="/app/schedule" render={() => <Schedule schedule={this.schedule} handleScheduleEditClick={this.handleScheduleEditClick} handleScheduleDeleteClick={this.handleScheduleDeleteClick} />} />
+    <Route path="/app/cart" exact component={Cart}/></div>*/
 
 
-class App extends React.Component {
-  Auth = new AuthHelperMethods();
+const App = () => {
+  const Auth = new AuthHelperMethods();
+  const [videoIdState, setVideoId] = useState('101845X');
+  const [dataState, updateDataState]= useState({});
+  const [metadataState, setMetadata]= useState({});
+  console.log(videoIdState);
 
-  constructor(props) {
+  /* constructor(props) {
     super(props);
 
     this.state = {
@@ -286,26 +294,15 @@ class App extends React.Component {
         }
       ]
     }; //End of state
-  } //End of constructor
+  } //End of constructor */
 
-  _handleLogout = () => {
-    this.Auth.logout()
-    return this.props.history.push("/login");
+    const _handleLogout = () => {
+    Auth.logout()
+      return this.props.history.push("/login");
     }
+ 
 
-  
-  gotoMetadata = (id) => {
-    this.state.data.forEach((data)=>{
-      if(data.id === id) {
-        this.metadata = data.metadata;
-      }
-    });
-    console.log('gotoMetadata');
-    console.log(this.metadata);
-    this.props.history.push("/app/metadata");
-  };
-
-  gotoSchedule = (value) => {
+  const gotoSchedule = (value) => {
     console.log('gotoSchedule');
     this.state.data.forEach((data)=>{
       if(data.id === value) {
@@ -315,23 +312,9 @@ class App extends React.Component {
     this.props.history.push("/app/schedule");
   };
 
-  editMetadata = (id) => {
-    console.log('editMetadata');
-    this.state.data.forEach((data) => {
-      if(typeof data.metadata != 'undefined') {
-        data.metadata.forEach((metadata) => {
-          if(metadata.id === id) {
-            this.metadata = metadata;
-            console.log(this.metadata);
-            this.setState({metadataForm: metadata});
-          }
-        });
-      }
-  });
-    this.props.history.push("/app/metadatedit");
-  };
 
-  onChangeMetadata = (event) => {
+
+  const onChangeMetadata = (event) => {
     console.log(this.state);
     this.setState({
       metadataForm: {...this.state.metadataForm,
@@ -340,7 +323,7 @@ class App extends React.Component {
     console.log(this.state);
   }
 
-  submitMetadata = (metadataForm) => {
+  const submitMetadata = (metadataForm) => {
     console.log('submitMetadata')
     this.state.data.forEach((data) => {
       if(typeof data.metadata != 'undefined') {
@@ -355,22 +338,20 @@ class App extends React.Component {
     this.props.history.push("/app/metadata");
   };
 
-  handleMetadataFormCancel = (value) => {
+  const handleMetadataFormCancel = (value) => {
     console.log('handleMetadataFormCancel')
     this.props.history.push("/app/metadata");
   };
 
-  handleScheduleEditClick = (value) => {
+  const handleScheduleEditClick = (value) => {
     console.log('handleScheduleEditClick')
     console.log('Edit ' + value);
   }
 
-  handleScheduleDeleteClick = (value) => {
+  const handleScheduleDeleteClick = (value) => {
     console.log('handleScheduleDeleteClickk')
     console.log('Delete ' + value);
   }
-
-  render(){
 
     return (
     <div className="App">
@@ -381,17 +362,17 @@ class App extends React.Component {
           </Col>
         </Row>
         <Row >
-            <Route exact path="/app/" render={() => <Main data={this.state.data} gotoMetadata={this.gotoMetadata} gotoSchedule={this.gotoSchedule}/>} />
-            <Route path="/app/users" exact component={Users} />
-            <Route path="/app/useredit" exact component={UserEdit} />
-            <Route exact path="/app/metadata" render={() => <Metadata metadata={this.metadata} editMetadata={this.editMetadata} />} />
-            <Route exact path="/app/metadatedit" render={() => <MetadataEdit onChangeMetadata={this.onChangeMetadata} metadataForm={this.state.metadataForm} submitMetadata={this.submitMetadata} />} />
-            <Route exact path="/app/schedule" render={() => <Schedule schedule={this.schedule} handleScheduleEditClick={this.handleScheduleEditClick} handleScheduleDeleteClick={this.handleScheduleDeleteClick} />} />
-            <Route path="/app/cart" exact component={Cart}/>
+        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata}}>
+        <Route exact path="/app/metadata" component={Metadata} />
+        <Route exact path="/app/metadataedit" component={MetadataEdit}/>
+        <Route exact path="/app/" component={Main}/>
+        <Route path="/app/users" exact component={Users} />
+        <Route path="/app/useredit" exact component={UserEdit} />
+        </UserContext.Provider>
         </Row>
       </Container>
     </div>
   );
 }
-}
+
 export default withAuth(App);

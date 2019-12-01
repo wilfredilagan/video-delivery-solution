@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import ReactTable from 'react-table';
 import { NavLink, Link} from "react-router-dom";
 import EditIcon from '@material-ui/icons/Edit';
 import 'react-table/react-table.css';
+import UserContext from './UserContext'
 
 const Metadata = (props) => {
+
+  const { videoIdState, setVideoId, dataState, updateDataState, metadataState, setMetadata  } = useContext(UserContext);
+
+  console.log(metadataState);
 
   const columns = [
   {
@@ -12,10 +17,10 @@ const Metadata = (props) => {
     accessor: 'platform',
   },{
     Header: 'Title',
-    accessor: 'title',
+    accessor: 'pubPointMetadataTitle',
   },{
     Header: 'Description',
-    accessor: 'description',
+    accessor: 'pubPointMetadataDesc',
   },{
     Header: 'Actions',
     accessor: 'actions',
@@ -32,9 +37,9 @@ const Metadata = (props) => {
   return (
     <div className="col">
       <p style={{textAlign: "left", fontSize: "30px"}}>Metadata</p>
-      <NavLink to="/app/metadatedit" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add</NavLink>
+      <NavLink to="/app/metadataedit" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add</NavLink>
       <ReactTable
-        data={props.metadata}
+        data={[metadataState]}
         columns={columns}
         sortable={true}
         className='-striped -highlight'
