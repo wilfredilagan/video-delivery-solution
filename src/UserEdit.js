@@ -6,7 +6,7 @@ import {
     Row } from 'reactstrap';
 import axios from 'axios';
 import AuthHelperMethods from './AuthHelperMethods';
-import { history } from './history';
+import history from './history';
 import withAuth from './withAuth';
 
 class UsersEdit extends React.Component {

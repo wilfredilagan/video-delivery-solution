@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import Nav from './Navbar';
 import Main from './Main';
@@ -6,13 +6,14 @@ import Users from './Users';
 import UserEdit from './UserEdit';
 import Metadata from './Metadata';
 import MetadataEdit from './MetadataEdit';
-import Schedule from './Schedule';
-import Cart from './Cart';
+/*import Schedule from './Schedule';*/
+/*import Cart from './Cart';*/
 import { Container, Row, Col } from 'reactstrap';
 import {Route} from "react-router-dom";
-import AuthHelperMethods from './AuthHelperMethods';
 import withAuth from './withAuth';
 import UserContext from './UserContext';
+
+
 
 
     /*<Route exact path="/app/metadatedit" render={() => <MetadataEdit onChangeMetadata={this.onChangeMetadata} metadataForm={this.state.metadataForm} submitMetadata={this.submitMetadata} />} />
@@ -21,11 +22,10 @@ import UserContext from './UserContext';
 
 
 const App = () => {
-  const Auth = new AuthHelperMethods();
-  const [videoIdState, setVideoId] = useState('101845X');
+  /*const Auth = new AuthHelperMethods();*/
+  const [videoIdState, setVideoId] = useState('');
   const [dataState, updateDataState]= useState({});
   const [metadataState, setMetadata]= useState({});
-  console.log(videoIdState);
 
   /* constructor(props) {
     super(props);
@@ -294,7 +294,7 @@ const App = () => {
         }
       ]
     }; //End of state
-  } //End of constructor */
+  } //End of constructor
 
     const _handleLogout = () => {
     Auth.logout()
@@ -351,7 +351,7 @@ const App = () => {
   const handleScheduleDeleteClick = (value) => {
     console.log('handleScheduleDeleteClickk')
     console.log('Delete ' + value);
-  }
+  }*/
 
     return (
     <div className="App">

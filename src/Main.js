@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {Row} from 'reactstrap';
 import ReactTable from 'react-table'
 import 'react-table/react-table.css';
@@ -7,7 +7,6 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import {gql} from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import UserContext from './UserContext';
-import {history} from './history';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 const getVideoAssets = gql`
@@ -38,14 +37,16 @@ const getVideoAssets = gql`
   
 
 const Main = (props) => {
+  
     const { videoIdState, setVideoId, dataState, updateDataState, metadataState, setMetadata  } = useContext(UserContext);
-    const [redirect, updateRedirect] = useState('/app/metadata');
+    
+    //const [redirect, updateRedirect] = useState('/app/metadata');
     const { loading, error, data } = useQuery(getVideoAssets);
     if (error) return <p>Error...</p>;
     if (loading || !data) return <p>Fetching...</p>;
     updateDataState(data);
-    console.log(data);
-  
+    
+
   const columns = [{
     Header: 'ID',
     accessor: 'videoId',
@@ -70,15 +71,14 @@ const Main = (props) => {
       width: 90,
       Cell: row => (
         <span>
-            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => {setVideoId(row.original.videoId); editMetadata(videoIdState); history.push('/app/metadata')}}></CreateIcon>
+            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); editMetadata(videoIdState) }}></CreateIcon>
             &nbsp;&nbsp;&nbsp;
             <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => props.gotoSchedule(row.original.id)}></ScheduleIcon>
         </span>
         )
       }
     ]
-    console.log(videoIdState)
-
+    const changeVideoId = (videoId)=>setVideoId(videoId);
     const editMetadata = (id) => {
       console.log('editMetadata = ' + id);
       dataState.videoAssets.forEach((data) => {
@@ -87,11 +87,10 @@ const Main = (props) => {
           pageMetadata.platform = data.pubPointAssetsByVideoId[0].publishPoint;
           console.log(pageMetadata);
           setMetadata(pageMetadata);
-          console.log(metadataState);
         }
       })
+      props.history.push('/app/metadata');
     }
-
     return(   
 
         <div className="col">

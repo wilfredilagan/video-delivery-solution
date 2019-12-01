@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { NavLink, Link} from "react-router-dom";
 import AuthHelperMethods from "./AuthHelperMethods";
-import { history } from './history';
+import history from './history';
   
   export default class Navigation extends React.Component {
     Auth = new AuthHelperMethods();

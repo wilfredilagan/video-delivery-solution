@@ -10,6 +10,7 @@ import {ApolloClient} from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
+import history from './history';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -27,7 +28,7 @@ ReactDOM.render(
   <Router>
       <Route exact path="/login" component={Login} />
       <Route exact path="/"><Redirect to="/app"></Redirect></Route>
-      <Route path="/app" component={App} />
+      <Route path="/app" component={App} history={history}/>
   </Router>
 </ApolloProvider>
 
