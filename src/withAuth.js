@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AuthHelperMethods from "./AuthHelperMethods";
-import { history } from "./history"
+import history from "./history"
 
 /* A higher order component is frequently written as a function that returns a class. */
 export default function withAuth(AuthComponent) {
