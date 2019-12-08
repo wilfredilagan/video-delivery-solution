@@ -15,8 +15,8 @@ const Metadata = (props) => {
       if(data.videoId === videoIdState) {
         const pageMetadata = data.pubPointAssetsByVideoId[0].pubPointMetadata;
         pageMetadata.platform = data.pubPointAssetsByVideoId[0].publishPoint;
-        console.log(pageMetadata);
         setMetadata(pageMetadata);
+        console.log(metadataState);
       }
     });
   })

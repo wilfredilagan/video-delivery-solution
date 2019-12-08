@@ -363,11 +363,11 @@ const App = () => {
         </Row>
         <Row >
         <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata}}>
-        <Route exact path="/app/metadata" component={Metadata} />
-        <Route exact path="/app/metadataedit" component={MetadataEdit}/>
-        <Route exact path="/app/" component={Main}/>
-        <Route path="/app/users" exact component={Users} />
-        <Route path="/app/useredit" exact component={UserEdit} />
+          <Route exact path="/app/metadata" component={Metadata} />
+          <Route exact path="/app/metadataedit" component={MetadataEdit}/>
+          <Route exact path="/app/" component={Main}/>
+          <Route path="/app/users" exact component={Users} />
+          <Route path="/app/useredit" exact component={UserEdit} />
         </UserContext.Provider>
         </Row>
       </Container>
