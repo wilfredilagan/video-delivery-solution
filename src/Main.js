@@ -22,11 +22,13 @@ const getVideoAssets = gql`
         pubPointAssetsByVideoId {
             publishPoint
             pubPointMetadata {
+            pubPointMetadataId
             pubPointMetadataDesc
             pubPointMetadataTitle
             pubPointMetadataTags
             }
             pubPointSchedule {
+            pubPointScheduleId
             pubPointSchedulePubDate
             pubPointScheduleKillDate
             }
@@ -45,6 +47,7 @@ const Main = (props) => {
     if (error) return <p>Error...</p>;
     if (loading || !data) return <p>Fetching...</p>;
     updateDataState(data);
+    console.log(data.videoAssets);
     
 
   const columns = [{
@@ -71,7 +74,7 @@ const Main = (props) => {
       width: 90,
       Cell: row => (
         <span>
-            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); editMetadata(videoIdState) }}></CreateIcon>
+            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); props.history.push('/app/metadata') }}></CreateIcon>
             &nbsp;&nbsp;&nbsp;
             <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => props.gotoSchedule(row.original.id)}></ScheduleIcon>
         </span>
@@ -79,18 +82,7 @@ const Main = (props) => {
       }
     ]
     const changeVideoId = (videoId)=>setVideoId(videoId);
-    const editMetadata = (id) => {
-      console.log('editMetadata = ' + id);
-      dataState.videoAssets.forEach((data) => {
-        if(data.videoId === id) {
-          const pageMetadata = data.pubPointAssetsByVideoId[0].pubPointMetadata;
-          pageMetadata.platform = data.pubPointAssetsByVideoId[0].publishPoint;
-          console.log(pageMetadata);
-          setMetadata(pageMetadata);
-        }
-      })
-      props.history.push('/app/metadata');
-    }
+    
     return(   
 
         <div className="col">
