@@ -6,7 +6,7 @@ import Users from './Users';
 import UserEdit from './UserEdit';
 import Metadata from './Metadata';
 import MetadataEdit from './MetadataEdit';
-/*import Schedule from './Schedule';*/
+import Schedule from './Schedule';
 /*import Cart from './Cart';*/
 import { Container, Row, Col } from 'reactstrap';
 import {Route} from "react-router-dom";
@@ -26,6 +26,7 @@ const App = () => {
   const [videoIdState, setVideoId] = useState('');
   const [dataState, updateDataState]= useState({});
   const [metadataState, setMetadata]= useState({});
+  const [scheduleState, setSchedule]= useState({});
 
   /* constructor(props) {
     super(props);
@@ -362,7 +363,8 @@ const App = () => {
           </Col>
         </Row>
         <Row >
-        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata}}>
+        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setSchedule}}>
+          <Route exact path="/app/schedule" component={Schedule} />
           <Route exact path="/app/metadata" component={Metadata} />
           <Route exact path="/app/metadataedit" component={MetadataEdit}/>
           <Route exact path="/app/" component={Main}/>

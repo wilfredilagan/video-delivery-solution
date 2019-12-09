@@ -1,23 +1,38 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useEffect } from 'react';
 import ReactTable from 'react-table'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import 'react-table/react-table.css'
 import { Input, Button, Col, Row } from 'reactstrap';
 import { NavLink, Link} from "react-router-dom";
+import UserContext from './UserContext'
 
 const Schedule = (props) => {
  
+  const { videoIdState, setVideoId, dataState, updateDataState, scheduleState, setSchedule  } = useContext(UserContext);
+
+  useEffect(()=> {
+    console.log('editSchedule = ' + videoIdState);
+    dataState.videoAssets.forEach((data) => {
+      if(data.videoId === videoIdState) {
+        const pageSchedule = data.pubPointAssetsByVideoId[0].pubPointSchedule;
+        pageSchedule.platform = data.pubPointAssetsByVideoId[0].publishPoint;
+        setSchedule(pageSchedule);
+        console.log(scheduleState);
+      }
+    });
+  })
+
   const columns = [
   {
     Header: 'Platform',
     accessor: 'platform',
   },{
     Header: 'Start',
-    accessor: 'start',
+    accessor: 'pubPointSchedulePubDate',
   },{
     Header: 'End',
-    accessor: 'end',
+    accessor: 'pubPointScheduleKillDate',
   },{
     Header: 'Actions',
     accessor: 'actions',
@@ -60,7 +75,7 @@ const Schedule = (props) => {
       </Row>
           <NavLink to="/app/" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Publish</NavLink>
       <ReactTable
-        data={props.schedule}
+        data={[scheduleState]}
         columns={columns}
         sortable={true}
         className='-striped -highlight'
