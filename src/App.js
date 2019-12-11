@@ -26,7 +26,9 @@ const App = () => {
   const [videoIdState, setVideoId] = useState('');
   const [dataState, updateDataState]= useState({});
   const [metadataState, setMetadata]= useState({});
-  const [scheduleState, setSchedule]= useState({});
+  const [scheduleState, setScheduleState]= useState({});
+  const [eventState, setEventState]= useState({});
+  const [editingEvent, setEditingEvent] = useState(false);
 
   /* constructor(props) {
     super(props);
@@ -363,7 +365,7 @@ const App = () => {
           </Col>
         </Row>
         <Row >
-        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setSchedule}}>
+        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent}}>
           <Route exact path="/app/schedule" component={Schedule} />
           <Route exact path="/app/metadata" component={Metadata} />
           <Route exact path="/app/metadataedit" component={MetadataEdit}/>
