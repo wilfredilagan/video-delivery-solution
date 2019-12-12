@@ -6,20 +6,21 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const ScheduleEdit = (props) => {
 
-  const { eventState, setEditingEvent } = useContext(UserContext);
+  const { videoIdState, eventState, setEditingEvent } = useContext(UserContext);
 
   const [startDate, setStartDate] = useState(new Date(eventState.pubPointSchedulePubDate));
   const [endDate, setEndDate] = useState(new Date(eventState.pubPointScheduleKillDate));
 
   const updateEvent = (row) => {
     console.log('Update event button was clicked');
+    console.log(videoIdState);
     console.log(eventState.pubPointScheduleId);
     console.log(eventState.platform);
     console.log(startDate);
     console.log(endDate);
-    //WRITE TO DB: pubPointScheduleId, start, end
-    //CALL DB: pubPointScheduleId
-    //use setScheduleState to update the state
+    //DB call: PUT updated event (pubPointScheduleId) into current video (videoIdState).
+    //DB call: GET schedule for current video (videoIdState).
+    //Update scheduleState using setScheduleState.
     setEditingEvent(false);
   }
 
@@ -28,7 +29,7 @@ const ScheduleEdit = (props) => {
     <Row style={{paddingBottom: "2%"}}>
       <Col md={2}>  
         <p>Platform</p>    
-        <Input name="platform" disabled placeholder={eventState.platform} type="text" />
+        <Input name="platform" disabled value={eventState.platform} type="text" />
       </Col> 
       <Col md={2.5}>
         <p>Start</p>

@@ -10,17 +10,15 @@ import ScheduleAdd from './ScheduleAdd';
 import ScheduleEdit from './ScheduleEdit';
 
 const Schedule = (props) => {
- 
+  
   const { videoIdState, setVideoId, dataState, updateDataState, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent } = useContext(UserContext);
 
   useEffect(()=> {
-    //console.log('editSchedule = ' + videoIdState);
     dataState.videoAssets.forEach((data) => {
       if(data.videoId === videoIdState) {
         const pageSchedule = data.pubPointAssetsByVideoId[0].pubPointSchedule;
         pageSchedule.platform = data.pubPointAssetsByVideoId[0].publishPoint;
         setScheduleState(pageSchedule);
-        //console.log(scheduleState);
       }
     });
   })
@@ -34,9 +32,11 @@ const Schedule = (props) => {
 
   const deleteEvent = (row) => {
     console.log('Delete event button was clicked');
-    setEventState(row);
+    console.log(videoIdState);
     console.log(row);
-    //ADD DB CALL HERE
+    //DB call: DELETE event (row.pubPointScheduleId) for current video id (videoIdState).
+    //DB call: GET schedule for current video id (videoIdState).
+    //Update scheduleState using setScheduleState.
   }
 
   const columns = [

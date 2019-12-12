@@ -6,12 +6,21 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const ScheduleAdd = (props) => {
 
+  const { videoIdState } = useContext(UserContext);
+
+  const [platformState, setPlatformState] = useState('Brightcove / tvo.org');
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
   const addEvent = () => {
-    console.log('Add event button was clicked')
-    //ADD DB CALL HERE
+    console.log('Add event button was clicked');
+    console.log(videoIdState);
+    console.log(platformState);
+    console.log(startDate);
+    console.log(endDate);
+    //DB call: POST new event to current video (videoIdState) schedule.
+    //DB call: GET schedule for current video (videoIdState).
+    //Update scheduleState using setScheduleState.
   }
 
   return (
@@ -19,14 +28,14 @@ const ScheduleAdd = (props) => {
     <Row style={{paddingBottom: "2%"}}>
       <Col md={2}>  
         <p>Platform</p>    
-        <Input name="platform" placeholder="Publish Point" type="select">
+        <Input name="platform" type="select" onChange={(event) => setPlatformState(event.target.value)}>
           <option value="Brightcove / tvo.org">Brightcove / tvo.org</option>
           <option value="Brightcove / TVO/Kids">Brightcove / TVO/Kids</option>
           <option value="Brightcove / ILC">Brightcove / TVO/Kids</option>
           <option value="Podcast / WordBomb">Podcast / WordBomb</option>
-          <option value="YouTube / Docs">YouTube / TVOKidse</option>
-          <option value="YouTube / Preschool">YouTube / TVOKidse</option>
-          <option value="YouTube / TVOKids">YouTube / TVOKidse</option>
+          <option value="YouTube / Docs">YouTube / TVOKids</option>
+          <option value="YouTube / Preschool">YouTube / TVOKids</option>
+          <option value="YouTube / TVOKids">YouTube / TVOKids</option>
         </Input>
       </Col> 
       <Col md={2.5}>
