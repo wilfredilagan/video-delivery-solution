@@ -5,21 +5,32 @@ import EditIcon from '@material-ui/icons/Edit';
 import 'react-table/react-table.css';
 import UserContext from './UserContext'
 
+
+
 const Metadata = (props) => {
 
-  const { videoIdState, setVideoId, dataState, updateDataState, metadataState, setMetadata  } = useContext(UserContext);
+  const { videoIdState, setVideoId, dataState, updateDataState, metadataState, setMetadata, addMetadataFlag, setAssetState, assetState, scheduleState, setScheduleState  } = useContext(UserContext);
+
 
   useEffect(()=> {
-    console.log('editMetadata = ' + videoIdState);
+    let pageAsset = [];
+    let scheduleRecord = [];
+    console.log('editAsset = ' + videoIdState);
     dataState.videoAssets.forEach((data) => {
       if(data.videoId === videoIdState) {
-        const pageMetadata = data.pubPointAssetsByVideoId[0].pubPointMetadata;
-        pageMetadata.platform = data.pubPointAssetsByVideoId[0].publishPoint;
-        setMetadata(pageMetadata);
-        console.log(metadataState);
+        //console.log(data.pubPointAssetsByVideoId);
+        data.pubPointAssetsByVideoId.forEach((a) => {
+          let assetRecord = a.pubPointMetadata;
+          scheduleRecord.push(a.pubPointSchedule);
+          assetRecord.platform = a.publishPoint
+          pageAsset.push(assetRecord);
+          
+        })
+        setScheduleState(scheduleRecord);
+        setAssetState(pageAsset);
       }
     });
-  })
+  }, [])
 
   const columns = [
   {
@@ -36,7 +47,7 @@ const Metadata = (props) => {
     accessor: 'actions',
     width: 90,
     Cell: row => (
-      <EditIcon style={{ fontSize: 18 }} onClick={() => props.history.push('/app/metadataedit')}></EditIcon>
+      <EditIcon style={{ fontSize: 18 }} onClick={() => {setMetadata(row.original); props.history.push('/app/metadataedit')}}></EditIcon>
     ),
     style: {
       cursor: 'pointer', 
@@ -47,9 +58,9 @@ const Metadata = (props) => {
   return (
     <div className="col">
       <p style={{textAlign: "left", fontSize: "30px"}}>Metadata</p>
-      <NavLink to="/app/metadataedit" onClick={()=>setMetadata({})} style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add</NavLink>
+      <NavLink to="/app/metadataedit" onClick={()=>{addMetadataFlag(true); setMetadata({})}} style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Add</NavLink>
       <ReactTable
-        data={[metadataState]}
+        data={assetState}
         columns={columns}
         sortable={true}
         className='-striped -highlight'
