@@ -1,32 +1,63 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useState, useEffect } from 'react';
 import ReactTable from 'react-table'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import 'react-table/react-table.css'
 import { Input, Button, Col, Row } from 'reactstrap';
 import { NavLink, Link} from "react-router-dom";
+import UserContext from './UserContext';
+import ScheduleAdd from './ScheduleAdd';
+import ScheduleEdit from './ScheduleEdit';
 
 const Schedule = (props) => {
- 
+  
+  const { videoIdState, setVideoId, dataState, updateDataState, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent } = useContext(UserContext);
+
+  useEffect(()=> {
+    dataState.videoAssets.forEach((data) => {
+      if(data.videoId === videoIdState) {
+        const pageSchedule = data.pubPointAssetsByVideoId[0].pubPointSchedule;
+        pageSchedule.platform = data.pubPointAssetsByVideoId[0].publishPoint;
+        setScheduleState(pageSchedule);
+      }
+    });
+  })
+
+  const editEvent = (row) => {
+    console.log('Edit event button was clicked');
+    setEventState(row);
+    console.log(row);
+    setEditingEvent(true);
+  }
+
+  const deleteEvent = (row) => {
+    console.log('Delete event button was clicked');
+    console.log(videoIdState);
+    console.log(row);
+    //DB call: DELETE event (row.pubPointScheduleId) for current video id (videoIdState).
+    //DB call: GET schedule for current video id (videoIdState).
+    //Update scheduleState using setScheduleState.
+  }
+
   const columns = [
   {
     Header: 'Platform',
     accessor: 'platform',
   },{
     Header: 'Start',
-    accessor: 'start',
+    accessor: 'pubPointSchedulePubDate',
   },{
     Header: 'End',
-    accessor: 'end',
+    accessor: 'pubPointScheduleKillDate',
   },{
     Header: 'Actions',
     accessor: 'actions',
     width: 90,
     Cell: row => (
       <>
-        <EditIcon style={{ fontSize: 18 }} onClick={() => props.handleScheduleEditClick(row.original.platform)}></EditIcon>
+        <EditIcon style={{ fontSize: 18 }} onClick={() => editEvent(row.original)}></EditIcon>
         &nbsp;&nbsp;&nbsp;
-        <DeleteIcon style={{ fontSize: 18 }} onClick={() => props.handleScheduleDeleteClick(row.original.platform)} />
+        <DeleteIcon style={{ fontSize: 18 }} onClick={() => deleteEvent(row.original)} />
       </>
     ),
     style: {
@@ -37,38 +68,31 @@ const Schedule = (props) => {
 
   return (
     <div className="col">
-        <p style={{textAlign: "left", fontSize: "30px"}}>Schedule</p>
-
-      <Row style={{paddingBottom: "2%"}}>
-        <Col md={2}>      
-          <Input name="pubpoint" placeholder="Publish Point" type="select">
-            <option value="cad">Brightcove / tvo.org</option>
-            <option value="cad">Brightcove / TVO/Kids</option>
-            <option value="cad">Podcast</option>
-            <option value="tvokids">YouTube</option>
-          </Input>
-        </Col> 
-        <Col md={2}> 
-          <Input placeholder="Start" name="start" type="text" />
-        </Col> 
-        <Col md={2}> 
-          <Input placeholder="End" name="end" type="text" />
-        </Col> 
-        <Col md={1}> 
-          <Button >Add</Button>
-        </Col> 
-      </Row>
-          <NavLink to="/app/" style={{justifyContent: 'center', color: 'black', fontSize: "20px", marginTop: "4px"}}>Publish</NavLink>
+      <p style={{textAlign: "left", fontSize: "30px"}}>Schedule</p>
+      <div>
+        {
+          editingEvent ? (
+            <>
+              <h2>Update event</h2>
+              
+              <ScheduleEdit />
+            </>
+          ) : (
+            <>
+              <h2>Add event</h2>
+              <ScheduleAdd />
+            </>
+          )
+        }
+      </div>
       <ReactTable
-        data={props.schedule}
+        data={[scheduleState]}
         columns={columns}
         sortable={true}
         className='-striped -highlight'
       />
     </div>
-      
   )
-
 }
 
 export default Schedule;

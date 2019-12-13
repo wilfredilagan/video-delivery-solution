@@ -76,7 +76,7 @@ const Main = (props) => {
         <span>
             <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); props.history.push('/app/metadata') }}></CreateIcon>
             &nbsp;&nbsp;&nbsp;
-            <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={() => props.gotoSchedule(row.original.id)}></ScheduleIcon>
+            <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); props.history.push('/app/schedule') }}></ScheduleIcon>
         </span>
         )
       }
