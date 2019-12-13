@@ -47,7 +47,6 @@ const Main = (props) => {
     if (error) return <p>Error...</p>;
     if (loading || !data) return <p>Fetching...</p>;
     updateDataState(data);
-    console.log(data.videoAssets);
     
 
   const columns = [{

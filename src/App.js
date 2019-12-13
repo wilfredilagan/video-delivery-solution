@@ -26,6 +26,9 @@ const App = () => {
   const [videoIdState, setVideoId] = useState('');
   const [dataState, updateDataState]= useState({});
   const [metadataState, setMetadata]= useState({});
+  const [addMetadata, addMetadataFlag] = useState(false);
+  const [assetState, setAssetState] = useState([]);
+  const [disabledState, setDisabledState] = useState(true);
   const [scheduleState, setScheduleState]= useState({});
   const [eventState, setEventState]= useState({});
   const [editingEvent, setEditingEvent] = useState(false);
@@ -365,7 +368,7 @@ const App = () => {
           </Col>
         </Row>
         <Row >
-        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent}}>
+        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent, addMetadata, addMetadataFlag, setAssetState, assetState, scheduleState, setScheduleState, disabledState, setDisabledState}}>
           <Route exact path="/app/schedule" component={Schedule} />
           <Route exact path="/app/metadata" component={Metadata} />
           <Route exact path="/app/metadataedit" component={MetadataEdit}/>
