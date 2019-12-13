@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import ReactTable from 'react-table'
+import { Input, Button, Col, Row } from 'reactstrap';
+import ReactTable from 'react-table';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import 'react-table/react-table.css';
-import {Link} from "react-router-dom";
+import withAuth from './withAuth';
 
 class Users extends Component {
   constructor() {
@@ -79,7 +80,16 @@ class Users extends Component {
   ]})
   }
 
-  handleEditClick = value => console.log('Edit ' + value);
+  handleAddClick = (value) => {
+    console.log('Add ' + value)
+    return this.props.history.push("/app/useredit");
+  };
+
+  handleEditClick = (value) => {
+    console.log('Edit ' + value)
+    return this.props.history.push("/app/useredit");
+  };
+
   handleDeleteClick = value => console.log('Delete ' + value);
   
   render() {
@@ -111,7 +121,7 @@ class Users extends Component {
       width: 90,
       Cell: row => (
         <>
-          <Link to="/updateusers"><EditIcon style={{ fontSize: 18 }} onClick={() => this.handleEditClick(row.original.username)} /></Link>
+          <EditIcon style={{ fontSize: 18 }} onClick={() => this.handleEditClick(row.original.username)} />
           &nbsp;&nbsp;&nbsp;
           <DeleteIcon style={{ fontSize: 18 }} onClick={() => this.handleDeleteClick(row.original.username)} />
         </>
@@ -125,13 +135,13 @@ class Users extends Component {
 
     return (
       <div className="col">
+        <p style={{textAlign: "left", fontSize: "30px"}}>Update Users</p>
+        <Button onClick={this.handleAddClick} style={{marginTop: "30px", marginLeft: "10px", marginBottom: "10px"}}>Add User</Button>
         <ReactTable
           data={data}
           columns={columns}
           sortable={true}
           className='-striped -highlight'
-          //pages={'3'} // Display the total number of pages
-          //loading={'Loading....'} // Display the loading overlay when we need it
         />
          <br />
         <button onClick={() => this.handleStateChange()}>Update State</button>
@@ -141,4 +151,4 @@ class Users extends Component {
 
 }
 
-export default Users;
+export default withAuth(Users);

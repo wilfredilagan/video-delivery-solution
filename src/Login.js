@@ -9,7 +9,7 @@ import {
   Navbar,
 NavbarBrand } from 'reactstrap';
 import AuthHelperMethods from './AuthHelperMethods'
-import { history } from "./history"
+import history from "./history"
 import Logo from './TVO_Bug.png';
 
 export default class Login extends React.Component {
@@ -116,7 +116,6 @@ export default class Login extends React.Component {
                   <div></div>
                   <Button onClick={this.handleSubmit} style={{marginTop: "30px", marginLeft: "35%"}}>Submit</Button>
               </Col>
-              
           </Row>
           {this.renderError()}
         </div>
