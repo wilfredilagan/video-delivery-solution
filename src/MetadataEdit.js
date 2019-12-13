@@ -15,6 +15,7 @@ const getVideoAssets = gql`
         seriesId
         status
         pubPointAssetsByVideoId {
+            pubPointAssetId
             publishPoint
             pubPointMetadata {
             pubPointMetadataId
@@ -113,7 +114,15 @@ const MetadataEdit = (props) => {
               <Row>
               <Col sm="12" md={{ size: 3, offset: 5 }} style={{paddingTop: "2%"}}>
                 <p>Publish Point</p>
-                <Input type='text' name='platform' value={metadataState.platform} disabled={disabledState} />
+                <Input type='select' name='platform' value={metadataState.platform} disabled={disabledState}>
+                  <option value="Brightcove / tvo.org">Brightcove / tvo.org</option>
+                  <option value="Brightcove / TVO/Kids">Brightcove / TVO/Kids</option>
+                  <option value="Brightcove / ILC">Brightcove / TVO/Kids</option>
+                  <option value="Podcast / WordBomb">Podcast / WordBomb</option>
+                  <option value="YouTube / Docs">YouTube / TVOKids</option>
+                  <option value="YouTube / Preschool">YouTube / TVOKids</option>
+                  <option value="YouTube / TVOKids">YouTube / TVOKids</option>
+                </Input>
                 <p>Title</p>
                 <Input type='text' name='title' value={title} size="60" onChange={e => setTitle(e.target.value)} />
                 <div></div>

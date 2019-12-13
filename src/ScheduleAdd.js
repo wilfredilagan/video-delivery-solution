@@ -3,21 +3,68 @@ import {Input, Button, Col, Row } from 'reactstrap';
 import UserContext from './UserContext';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {gql} from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
+
+
+const createAssetMutation = gql`
+mutation createAsset ($publishPoint: String!, $videoId: String!, $pubPointMetadataId: Int!, $pubPointScheduleId:Int!) {
+    __typename
+    createPubPointAsset(input: {pubPointAsset: {publishPoint: $publishPoint, videoId: $videoId, pubPointMetadataId: $pubPointMetadataId, pubPointScheduleId: $pubPointScheduleId}}){
+    pubPointAsset{
+      pubPointAssetId
+    }
+  }
+}`
+const createScheduleMutation = gql`
+mutation createSchedule($pubPointScheduleKillDate: Datetime!, $pubPointSchedulePubDate: Datetime!) {
+  __typename
+  createPubPointSchedule(input: {pubPointSchedule: {pubPointSchedulePubDate: $pubPointSchedulePubDate, pubPointScheduleKillDate: $pubPointScheduleKillDate}}) {
+    pubPointSchedule {
+      pubPointScheduleId
+    }
+  }
+}`
+const createMetadataMutation = gql`
+mutation createMetadata($pubPointMetadataDesc: String!, $pubPointMetadataTags: String!, $pubPointMetadataTitle: String!) {
+createPubPointMetadatum(input: {pubPointMetadatum: {pubPointMetadataDesc: $pubPointMetadataDesc, pubPointMetadataTags: $pubPointMetadataTags, pubPointMetadataTitle: $pubPointMetadataTitle}})
+{
+  pubPointMetadatum{
+    pubPointMetadataId
+  }
+}
+}`
+
+let metadataObject = {};
 
 const ScheduleAdd = (props) => {
 
-  const { videoIdState } = useContext(UserContext);
+  const { videoIdState, dataState } = useContext(UserContext);
 
   const [platformState, setPlatformState] = useState('Brightcove / tvo.org');
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [createAssetCall] = useMutation(createAssetMutation);
+  const [createScheduleCall] = useMutation(createScheduleMutation);
+  const [createMetadataCall] = useMutation(createMetadataMutation)
 
-  const addEvent = () => {
+  dataState.videoAssets.forEach((data) => {
+    if(data.videoId === videoIdState) {
+        metadataObject = data
+    }
+  });
+
+  const  addEvent = async () => {
     console.log('Add event button was clicked');
     console.log(videoIdState);
     console.log(platformState);
     console.log(startDate);
     console.log(endDate);
+    let scheduleReturn = await createScheduleCall({variables: {pubPointSchedulePubDate: startDate, pubPointScheduleKillDate: endDate}});
+    await console.log(scheduleReturn);
+    let metadataReturn = await createMetadataCall({variables: {pubPointMetadataDesc: metadataObject.mainDescription, pubPointMetadataTitle: metadataObject.mainTitle, pubPointMetadataTags: ""}})
+    await console.log(metadataReturn);
+    createAssetCall({variables: {publishPoint: platformState, videoId: videoIdState, pubPointScheduleId: scheduleReturn.data.createPubPointSchedule.pubPointSchedule.pubPointScheduleId, pubPointMetadataId: metadataReturn.data.createPubPointMetadatum.pubPointMetadatum.pubPointMetadataId}})
     //DB call: POST new event to current video (videoIdState) schedule.
     //DB call: GET schedule for current video (videoIdState).
     //Update scheduleState using setScheduleState.

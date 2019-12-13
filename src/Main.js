@@ -20,6 +20,7 @@ const getVideoAssets = gql`
         seriesId
         status
         pubPointAssetsByVideoId {
+            pubPointAssetId
             publishPoint
             pubPointMetadata {
             pubPointMetadataId

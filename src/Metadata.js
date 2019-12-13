@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import { NavLink, Link} from "react-router-dom";
 import EditIcon from '@material-ui/icons/Edit';
 import 'react-table/react-table.css';
-import UserContext from './UserContext'
+import UserContext from './UserContext';
 
 let metadataAsset = [];
 
@@ -48,7 +48,7 @@ const Metadata = (props) => {
     accessor: 'actions',
     width: 90,
     Cell: row => (
-      <EditIcon style={{ fontSize: 18 }} onClick={() => { addMetadataFlag(false); setMetadata(row.original); props.history.push('/app/metadataedit')}}></EditIcon>
+      <EditIcon style={{ fontSize: 18 }} onClick={() => { setDisabledState(true); addMetadataFlag(false); setMetadata(row.original); props.history.push('/app/metadataedit')}}></EditIcon>
     ),
     style: {
       cursor: 'pointer', 
