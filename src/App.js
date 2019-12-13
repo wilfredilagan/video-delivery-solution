@@ -29,6 +29,7 @@ const App = () => {
   const [addMetadata, addMetadataFlag] = useState(false);
   const [assetState, setAssetState] = useState([]);
   const [scheduleState, setScheduleState] = useState([]);
+  const [disabledState, setDisabledState] = useState(true);
 
   /* constructor(props) {
     super(props);
@@ -365,7 +366,7 @@ const App = () => {
           </Col>
         </Row>
         <Row >
-        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, addMetadata, addMetadataFlag, setAssetState, assetState, scheduleState, setScheduleState}}>
+        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, addMetadata, addMetadataFlag, setAssetState, assetState, scheduleState, setScheduleState, disabledState, setDisabledState}}>
           <Route exact path="/app/metadata" component={Metadata} />
           <Route exact path="/app/metadataedit" component={MetadataEdit}/>
           <Route exact path="/app/" component={Main}/>

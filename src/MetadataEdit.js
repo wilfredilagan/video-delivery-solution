@@ -31,6 +31,15 @@ const getVideoAssets = gql`
         }
     }`
 
+const createAssetMutation = gql`
+mutation createAsset ($publishPoint: String!, $videoId: String!, $pubPointMetadataId: Int!, $pubPointScheduleId:Int!) {
+    __typename
+    createPubPointAsset(input: {pubPointAsset: {publishPoint: $publishPoint, videoId: $videoId, pubPointMetadataId: $pubPointMetadataId, pubPointScheduleId: $pubPointScheduleId}}){
+    pubPointAsset{
+      pubPointAssetId
+    }
+  }
+}`
 
 const MetadataEdit = (props) => {
 
@@ -51,8 +60,8 @@ const MetadataEdit = (props) => {
           }
         };
       };
-      const { metadataState, setMetadata, updateDataState, dataState, addMetadata, scheduleState  } = useContext(UserContext);
-      console.log(addMetadata)
+      const { metadataState, setMetadata, updateDataState, dataState, addMetadata, assetState, metadataAsset, videoIdState, disabledState  } = useContext(UserContext);
+      
       
       const [title, setTitle]= useState('');
       const [description, setDescription] = useState('')
@@ -64,14 +73,12 @@ const MetadataEdit = (props) => {
           setTags(metadataState.pubPointMetadataTags)
         }
       },[addMetadata, setTitle, setTags, metadataState])
-      console.log(scheduleState);
       
       let updateMetadataMutation = '';
-      let createAssetMutation = ''
       //let updateAssetMutation = '';
       if (addMetadata === true){
         updateMetadataMutation = gql`
-        mutation MyMutation($pubPointMetadataDesc: String!, $pubPointMetadataTags: String!, $pubPointMetadataTitle: String!) {
+        mutation createMetadata($pubPointMetadataDesc: String!, $pubPointMetadataTags: String!, $pubPointMetadataTitle: String!) {
         createPubPointMetadatum(input: {pubPointMetadatum: {pubPointMetadataDesc: $pubPointMetadataDesc, pubPointMetadataTags: $pubPointMetadataTags, pubPointMetadataTitle: $pubPointMetadataTitle}})
         {
           pubPointMetadatum{
@@ -79,16 +86,9 @@ const MetadataEdit = (props) => {
           }
         }
       }`
-      
-        createAssetMutation = gql`
-          mutation MyMutation($pubPointScheduleId: Int!, $pubPointMetadataId: Int!, $videoId: String!, $publishPoint: String!){
-            createPubPointAsset(input: {pubPointAsset: {publishPoint: $publishPoint, videoId: $videoId, pubPointMetadataId: $pubPointMetadataId, pubPointScheduleId: $pubPointScheduleId}})
-            }
-          }`
-
       } else{
         updateMetadataMutation = gql`
-        mutation MyMutation($pubPointMetadataDesc: String!, $pubPointMetadataId: Int!, $pubPointMetadataTags: String!, $pubPointMetadataTitle: String!) {
+        mutation updateMetadata($pubPointMetadataDesc: String!, $pubPointMetadataId: Int!, $pubPointMetadataTags: String!, $pubPointMetadataTitle: String!) {
           updatePubPointMetadatum(input: {patch: {pubPointMetadataDesc: $pubPointMetadataDesc, pubPointMetadataId: $pubPointMetadataId, pubPointMetadataTags: $pubPointMetadataTags, pubPointMetadataTitle: $pubPointMetadataTitle}, pubPointMetadataId: $pubPointMetadataId}) {
             clientMutationId
           }
@@ -96,11 +96,12 @@ const MetadataEdit = (props) => {
       }
 
       const [updateMetadataCall] = useMutation(updateMetadataMutation);
-      //const [createAssetCall] = useMutation(createAssetMutation)
+      const [createAssetCall] = useMutation(createAssetMutation)
       const { loading, error, data, refetch } = useQuery(getVideoAssets);
       if (error) return <p>Error...</p>;
       if (loading || !data) return <p>Fetching...</p>;
       updateDataState(data);
+
 
       return(
           <div className="col">
@@ -112,7 +113,7 @@ const MetadataEdit = (props) => {
               <Row>
               <Col sm="12" md={{ size: 3, offset: 5 }} style={{paddingTop: "2%"}}>
                 <p>Publish Point</p>
-                <Input type='text' name='platform' value={metadataState.platform} disabled />
+                <Input type='text' name='platform' value={metadataState.platform} disabled={disabledState} />
                 <p>Title</p>
                 <Input type='text' name='title' value={title} size="60" onChange={e => setTitle(e.target.value)} />
                 <div></div>
@@ -125,17 +126,16 @@ const MetadataEdit = (props) => {
                   if (addMetadata === true){
                     const metadataReturn = await updateMetadataCall({variables: {pubPointMetadataTitle: title, pubPointMetadataDesc: description, pubPointMetadataTags: tags}})
                     console.log(metadataReturn);
-                    //const assetReturn = await createAssetCall({variables:{publishPoint: metadataState.publishPoint, }})
-                    const dataRefetch = await refetch(); 
-                     await updateDataState(dataRefetch); 
-                     console.log(dataState); 
+                    const assetReturn = await createAssetCall({variables:{publishPoint: assetState[0].publishPoint,videoId: videoIdState, pubPointScheduleId: assetState[0].pubPointSchedule.pubPointScheduleId, pubPointMetadataId: metadataReturn.data.createPubPointMetadatum.pubPointMetadatum.pubPointMetadataId }})
+                    const dataRefetch = await refetch();
+                    console.log(dataRefetch);
+                     updateDataState(dataRefetch.data); 
                      props.history.push('/app/metadata')
                     }else{
-                      updateMetadataCall({variables: {pubPointMetadataId: metadataState.pubPointMetadataId, pubPointMetadataTitle: title, pubPointMetadataDesc: description, pubPointMetadataTags: tags}})};
+                      updateMetadataCall({variables: {pubPointMetadataId: metadataState.pubPointMetadataId, pubPointMetadataTitle: title, pubPointMetadataDesc: description, pubPointMetadataTags: tags}});
                      const dataRefetch = await refetch(); 
-                     await updateDataState(dataRefetch); 
-                     console.log(dataState); 
-                     props.history.push('/app/metadata')}}>Submit</Button>
+                     updateDataState(dataRefetch.data); 
+                    props.history.push('/app/metadata')}}}>Submit</Button>
                 </Col>
               </Row>
           </div>
