@@ -89,11 +89,14 @@ const ScheduleAdd = (props) => {
     }
   });
 
-  const updateScheduleState = () =>{
+  const updateScheduleState = async () =>{
+    console.log('test');
     let pageAsset = [];
     let scheduleTemp = {};
     let scheduleAsset = [];
-    dataState.videoAssets.forEach((data) => {
+    let rData = await refetchedData();
+    console.log(rData);
+    rData.data.videoAssets.forEach((data) => {
       if(data.videoId === videoIdState) {
         data.pubPointAssetsByVideoId.forEach((a) => {
           pageAsset.push(a);
@@ -108,6 +111,12 @@ const ScheduleAdd = (props) => {
     });
     
   }
+
+  const refetchedData = async () =>{
+    const dataRefetch = await refetch();
+    return dataRefetch;
+  }
+
   const  addEvent = async () => {
     console.log('Add event button was clicked');
     console.log(videoIdState);
@@ -120,10 +129,7 @@ const ScheduleAdd = (props) => {
     await console.log(metadataReturn);
     let assetReturn = await createAssetCall({variables: {publishPoint: platformState, videoId: videoIdState, pubPointScheduleId: scheduleReturn.data.createPubPointSchedule.pubPointSchedule.pubPointScheduleId, pubPointMetadataId: metadataReturn.data.createPubPointMetadatum.pubPointMetadatum.pubPointMetadataId}})
     console.log(assetReturn);
-    const dataRefetch = await refetch(); 
-    updateDataState(dataRefetch.data);
-    updateScheduleState();
-    updateDataState(dataRefetch.data);
+    setScheduleState(()=>{updateScheduleState()});
     //DB call: POST new event to current video (videoIdState) schedule.
     //DB call: GET schedule for current video (videoIdState).
     //Update scheduleState using setScheduleState.

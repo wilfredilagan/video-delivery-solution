@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState, useEffect } from 'react';
+import React, { Component, useContext, useState, useEffect, useRef } from 'react';
 import ReactTable from 'react-table'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -63,13 +63,11 @@ const getVideoAssets = gql`
 
 
 const Schedule = (props) => {
-  const [reRenderState, setRerenderState] = useState('');
   const { videoIdState, setVideoId, dataState, updateDataState, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent, setAssetState, assetState} = useContext(UserContext);
 
   console.log('beginnning');
 
   useEffect(()=> {
-    console.log(dataState)
     let pageAsset = [];
     let scheduleTemp = {};
     let scheduleAsset = [];
@@ -81,7 +79,6 @@ const Schedule = (props) => {
           scheduleTemp.platform = a.publishPoint;
           scheduleTemp.pubPointAssetId = a.pubPointAssetId
           scheduleAsset.push(scheduleTemp);
-          console.log(scheduleAsset);
         })
         setAssetState(pageAsset);
         setScheduleState(scheduleAsset);
@@ -90,19 +87,21 @@ const Schedule = (props) => {
     
   }, [])
 
+
   const [deleteScheduleCall] = useMutation(deleteScheduleMutation);
 
   const { loading, error, data, refetch} = useQuery(getVideoAssets);
   if (error) return <p>Error...</p>;
   if (loading || !data) return <p>Fetching...</p>;
   updateDataState(data);
-  console.log(dataState);
 
-  const updateScheduleState = () =>{
+  const updateScheduleState = async () =>{
+    console.log('test');
     let pageAsset = [];
     let scheduleTemp = {};
     let scheduleAsset = [];
-    dataState.videoAssets.forEach((data) => {
+    let rData = await refetchData()
+    await rData.data.videoAssets.forEach((data) => {
       if(data.videoId === videoIdState) {
         data.pubPointAssetsByVideoId.forEach((a) => {
           pageAsset.push(a);
@@ -111,20 +110,23 @@ const Schedule = (props) => {
           scheduleTemp.pubPointAssetId = a.pubPointAssetId
           scheduleAsset.push(scheduleTemp);
         })
-        setAssetState(pageAsset);
         setScheduleState(scheduleAsset);
+        setAssetState(pageAsset);
       }
     });
-    
   }
+ 
   
 
  
   
 
   
+ async function refetchData (){
+   let dataRefetch = await refetch()
 
-  
+   return dataRefetch
+ }
   
 
   const editEvent = (row) => {
@@ -137,10 +139,10 @@ const Schedule = (props) => {
   const deleteEvent = async (row) => {
     console.log('Delete event button was clicked');
     deleteScheduleCall({variables: {pubPointAssetId: row.pubPointAssetId, pubPointScheduleId: row.pubPointScheduleId}})
-    const dataRefetch = await refetch();
-    updateDataState(dataRefetch.data);
-    updateScheduleState();
-    setRerenderState('0') 
+    console.log(scheduleState);
+    setScheduleState(()=>{updateScheduleState()})
+    //console.log(dataState);
+    
     };
 
   const columns = [
