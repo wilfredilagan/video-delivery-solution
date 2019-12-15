@@ -81,10 +81,10 @@ const Schedule = (props) => {
           scheduleTemp.platform = a.publishPoint;
           scheduleTemp.pubPointAssetId = a.pubPointAssetId
           scheduleAsset.push(scheduleTemp);
+          console.log(scheduleAsset);
         })
         setAssetState(pageAsset);
         setScheduleState(scheduleAsset);
-        console.log(scheduleState);
       }
     });
     
@@ -93,6 +93,8 @@ const Schedule = (props) => {
   const [deleteScheduleCall] = useMutation(deleteScheduleMutation);
 
   const { loading, error, data, refetch} = useQuery(getVideoAssets);
+  if (error) return <p>Error...</p>;
+  if (loading || !data) return <p>Fetching...</p>;
   updateDataState(data);
   console.log(dataState);
 
@@ -111,7 +113,6 @@ const Schedule = (props) => {
         })
         setAssetState(pageAsset);
         setScheduleState(scheduleAsset);
-        console.log(scheduleState);
       }
     });
     
@@ -138,8 +139,8 @@ const Schedule = (props) => {
     deleteScheduleCall({variables: {pubPointAssetId: row.pubPointAssetId, pubPointScheduleId: row.pubPointScheduleId}})
     const dataRefetch = await refetch();
     updateDataState(dataRefetch.data);
-    updateScheduleState()
-    console.log(scheduleState);
+    updateScheduleState();
+    setRerenderState('0') 
     };
 
   const columns = [
