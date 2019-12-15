@@ -11,7 +11,7 @@ import ScheduleEdit from './ScheduleEdit';
 import {gql} from 'apollo-boost';
 import { useMutation, useQuery} from '@apollo/react-hooks';
 
-let scheduleAsset = [];
+
 
 const deleteScheduleMutation = gql`
   mutation deleteSchedule($pubPointScheduleId: Int!, $pubPointAssetId: Int!) {
@@ -59,15 +59,20 @@ const getVideoAssets = gql`
         }
         }
     }`
-    let pageAsset = [];
-    let scheduleTemp = {}
+    
+
 
 const Schedule = (props) => {
-  
+  const [reRenderState, setRerenderState] = useState('');
   const { videoIdState, setVideoId, dataState, updateDataState, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent, setAssetState, assetState} = useContext(UserContext);
 
+  console.log('beginnning');
+
   useEffect(()=> {
-    
+    console.log(dataState)
+    let pageAsset = [];
+    let scheduleTemp = {};
+    let scheduleAsset = [];
     dataState.videoAssets.forEach((data) => {
       if(data.videoId === videoIdState) {
         data.pubPointAssetsByVideoId.forEach((a) => {
@@ -78,36 +83,63 @@ const Schedule = (props) => {
           scheduleAsset.push(scheduleTemp);
         })
         setAssetState(pageAsset);
-        console.log(pageAsset)
+        setScheduleState(scheduleAsset);
+        console.log(scheduleState);
       }
     });
     
-  }, [dataState,setAssetState,videoIdState])
+  }, [])
 
   const [deleteScheduleCall] = useMutation(deleteScheduleMutation);
 
   const { loading, error, data, refetch} = useQuery(getVideoAssets);
-  if (error) return <p>Error...</p>;
-  if (loading || !data) return <p>Fetching...</p>;
   updateDataState(data);
+  console.log(dataState);
 
+  const updateScheduleState = () =>{
+    let pageAsset = [];
+    let scheduleTemp = {};
+    let scheduleAsset = [];
+    dataState.videoAssets.forEach((data) => {
+      if(data.videoId === videoIdState) {
+        data.pubPointAssetsByVideoId.forEach((a) => {
+          pageAsset.push(a);
+          scheduleTemp = a.pubPointSchedule;
+          scheduleTemp.platform = a.publishPoint;
+          scheduleTemp.pubPointAssetId = a.pubPointAssetId
+          scheduleAsset.push(scheduleTemp);
+        })
+        setAssetState(pageAsset);
+        setScheduleState(scheduleAsset);
+        console.log(scheduleState);
+      }
+    });
+    
+  }
+  
+
+ 
+  
+
+  
+
+  
   
 
   const editEvent = (row) => {
     console.log('Edit event button was clicked');
     setEventState(row);
-    console.log(row);
     setEditingEvent(true);
+    
   }
 
   const deleteEvent = async (row) => {
     console.log('Delete event button was clicked');
-    console.log(videoIdState);
-    console.log(row);
     deleteScheduleCall({variables: {pubPointAssetId: row.pubPointAssetId, pubPointScheduleId: row.pubPointScheduleId}})
     const dataRefetch = await refetch();
     updateDataState(dataRefetch.data);
-    console.log(dataState);
+    updateScheduleState()
+    console.log(scheduleState);
     };
 
   const columns = [
@@ -126,9 +158,9 @@ const Schedule = (props) => {
     width: 90,
     Cell: row => (
       <>
-        <EditIcon style={{ fontSize: 18 }} onClick={() => editEvent(row.original)}></EditIcon>
+        <EditIcon style={{ fontSize: 18 }} onClick={() => {editEvent(row.original); }}></EditIcon>
         &nbsp;&nbsp;&nbsp;
-        <DeleteIcon style={{ fontSize: 18 }} onClick={() => deleteEvent(row.original)} />
+        <DeleteIcon style={{ fontSize: 18 }} onClick={() => {deleteEvent(row.original)}} />
       </>
     ),
     style: {
@@ -150,14 +182,14 @@ const Schedule = (props) => {
             </>
           ) : (
             <>
-              <h2>Add event</h2>
-              <ScheduleAdd />
+                <h2>Add event</h2>
+                <ScheduleAdd />
             </>
           )
         }
       </div>
       <ReactTable
-        data={scheduleAsset}
+        data={scheduleState}
         columns={columns}
         sortable={true}
         className='-striped -highlight'

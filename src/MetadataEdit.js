@@ -41,6 +41,15 @@ mutation createAsset ($publishPoint: String!, $videoId: String!, $pubPointMetada
     }
   }
 }`
+const createScheduleMutation = gql`
+mutation createSchedule($pubPointScheduleKillDate: Datetime!, $pubPointSchedulePubDate: Datetime!) {
+  __typename
+  createPubPointSchedule(input: {pubPointSchedule: {pubPointSchedulePubDate: $pubPointSchedulePubDate, pubPointScheduleKillDate: $pubPointScheduleKillDate}}) {
+    pubPointSchedule {
+      pubPointScheduleId
+    }
+  }
+}`
 
 const MetadataEdit = (props) => {
 
@@ -61,17 +70,21 @@ const MetadataEdit = (props) => {
           }
         };
       };
-      const { metadataState, setMetadata, updateDataState, dataState, addMetadata, assetState, metadataAsset, videoIdState, disabledState  } = useContext(UserContext);
+      const { metadataState, setMetadata, updateDataState, dataState, addMetadata, assetState, metadataAsset, videoIdState, disabledState, setAssetState  } = useContext(UserContext);
       
       
       const [title, setTitle]= useState('');
-      const [description, setDescription] = useState('')
-      const [tags, setTags]=useState('')
+      const [description, setDescription] = useState('');
+      const [tags, setTags]=useState('');
+      const [publishPoint, setPublishPoint] = useState('')
       useEffect(()=>{
         if (addMetadata === false){
           setTitle(metadataState.pubPointMetadataTitle);
           setDescription(metadataState.pubPointMetadataDesc);
           setTags(metadataState.pubPointMetadataTags)
+          setPublishPoint(metadataState.platform)
+        }else{
+          setPublishPoint("Brightcove / tvo.org")
         }
       },[addMetadata, setTitle, setTags, metadataState])
       
@@ -97,12 +110,37 @@ const MetadataEdit = (props) => {
       }
 
       const [updateMetadataCall] = useMutation(updateMetadataMutation);
-      const [createAssetCall] = useMutation(createAssetMutation)
+      const [createAssetCall] = useMutation(createAssetMutation);
+      const [createScheduleCall] = useMutation(createScheduleMutation);
       const { loading, error, data, refetch } = useQuery(getVideoAssets);
       if (error) return <p>Error...</p>;
       if (loading || !data) return <p>Fetching...</p>;
       updateDataState(data);
 
+      const updateMetadataState = () =>{
+        console.log(title);
+      console.log(description);
+      console.log(tags);
+      console.log(publishPoint);
+        let pageAsset = [];
+        let metadataAsset = []
+        let metadataTemp = {}
+        console.log('editAsset = ' + videoIdState);
+        dataState.videoAssets.forEach((data) => {
+          if(data.videoId === videoIdState) {
+            data.pubPointAssetsByVideoId.forEach((a) => {
+              pageAsset.push(a);
+              metadataTemp = a.pubPointMetadata;
+              metadataTemp.platform = a.publishPoint;
+              metadataAsset.push(metadataTemp);
+          })
+        setAssetState(pageAsset);
+        setMetadata(metadataAsset)
+         }
+       });
+      }
+
+      
 
       return(
           <div className="col">
@@ -114,7 +152,7 @@ const MetadataEdit = (props) => {
               <Row>
               <Col sm="12" md={{ size: 3, offset: 5 }} style={{paddingTop: "2%"}}>
                 <p>Publish Point</p>
-                <Input type='select' name='platform' value={metadataState.platform} disabled={disabledState}>
+                <Input type='select' name='platform' value={publishPoint || "Brightcove / tvo.org"} onChange={e => setPublishPoint(e.target.value)} disabled={disabledState}>
                   <option value="Brightcove / tvo.org">Brightcove / tvo.org</option>
                   <option value="Brightcove / TVO/Kids">Brightcove / TVO/Kids</option>
                   <option value="Brightcove / ILC">Brightcove / TVO/Kids</option>
@@ -124,7 +162,7 @@ const MetadataEdit = (props) => {
                   <option value="YouTube / TVOKids">YouTube / TVOKids</option>
                 </Input>
                 <p>Title</p>
-                <Input type='text' name='title' value={title} size="60" onChange={e => setTitle(e.target.value)} />
+                <Input type='text' name='title' value={title} onChange={e => setTitle(e.target.value)} />
                 <div></div>
                 <p>Description</p>
                 <Input type='text' name='description' value={description} onChange={e=> setDescription(e.target.value)} />
@@ -133,17 +171,22 @@ const MetadataEdit = (props) => {
                 <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={() => props.handleMetadataFormCancel()}>Cancel</Button>
                 <Button style={{marginTop: "30px", marginLeft: "10px"}} onClick={async () => {
                   if (addMetadata === true){
+                    console.log(publishPoint);
                     const metadataReturn = await updateMetadataCall({variables: {pubPointMetadataTitle: title, pubPointMetadataDesc: description, pubPointMetadataTags: tags}})
                     console.log(metadataReturn);
-                    const assetReturn = await createAssetCall({variables:{publishPoint: assetState[0].publishPoint,videoId: videoIdState, pubPointScheduleId: assetState[0].pubPointSchedule.pubPointScheduleId, pubPointMetadataId: metadataReturn.data.createPubPointMetadatum.pubPointMetadatum.pubPointMetadataId }})
+                    const scheduleReturn = await createScheduleCall({variables: {pubPointSchedulePubDate: assetState[0].pubPointSchedule.pubPointSchedulePubDate, pubPointScheduleKillDate: assetState[0].pubPointSchedule.pubPointScheduleKillDate}})
+                    const assetReturn = await createAssetCall({variables:{publishPoint: publishPoint, videoId: videoIdState, pubPointScheduleId: scheduleReturn.data.createPubPointSchedule.pubPointSchedule.pubPointScheduleId, pubPointMetadataId: metadataReturn.data.createPubPointMetadatum.pubPointMetadatum.pubPointMetadataId }})
                     const dataRefetch = await refetch();
                     console.log(dataRefetch);
-                     updateDataState(dataRefetch.data); 
+                     updateDataState(dataRefetch.data);
+                     updateMetadataState();
                      props.history.push('/app/metadata')
                     }else{
                       updateMetadataCall({variables: {pubPointMetadataId: metadataState.pubPointMetadataId, pubPointMetadataTitle: title, pubPointMetadataDesc: description, pubPointMetadataTags: tags}});
                      const dataRefetch = await refetch(); 
-                     updateDataState(dataRefetch.data); 
+                     updateDataState(dataRefetch.data);
+                     updateMetadataState();
+                     console.log(metadataState);
                     props.history.push('/app/metadata')}}}>Submit</Button>
                 </Col>
               </Row>

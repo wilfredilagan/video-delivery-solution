@@ -16,6 +16,7 @@ import UserContext from './UserContext';
 
 
 
+
     /*<Route exact path="/app/metadatedit" render={() => <MetadataEdit onChangeMetadata={this.onChangeMetadata} metadataForm={this.state.metadataForm} submitMetadata={this.submitMetadata} />} />
     <Route exact path="/app/schedule" render={() => <Schedule schedule={this.schedule} handleScheduleEditClick={this.handleScheduleEditClick} handleScheduleDeleteClick={this.handleScheduleDeleteClick} />} />
     <Route path="/app/cart" exact component={Cart}/></div>*/
@@ -25,13 +26,18 @@ const App = () => {
   /*const Auth = new AuthHelperMethods();*/
   const [videoIdState, setVideoId] = useState('');
   const [dataState, updateDataState]= useState({});
-  const [metadataState, setMetadata]= useState({});
+  const [metadataState, setMetadata]= useState([]);
   const [addMetadata, addMetadataFlag] = useState(false);
   const [assetState, setAssetState] = useState([]);
   const [disabledState, setDisabledState] = useState(true);
-  const [scheduleState, setScheduleState]= useState({});
+  const [scheduleState, setScheduleState]= useState([]);
   const [eventState, setEventState]= useState({});
   const [editingEvent, setEditingEvent] = useState(false);
+
+  //console.log(dataState);
+  /*console.log(assetState);*/
+  /*console.log(metadataState);
+  console.log(scheduleState)*/
 
   /* constructor(props) {
     super(props);
@@ -368,7 +374,7 @@ const App = () => {
           </Col>
         </Row>
         <Row >
-        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent, addMetadata, addMetadataFlag, setAssetState, assetState, scheduleState, setScheduleState, disabledState, setDisabledState}}>
+        <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent, addMetadata, addMetadataFlag, setAssetState, assetState, disabledState, setDisabledState}}>
           <Route exact path="/app/schedule" component={Schedule} />
           <Route exact path="/app/metadata" component={Metadata} />
           <Route exact path="/app/metadataedit" component={MetadataEdit}/>

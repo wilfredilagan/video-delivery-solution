@@ -41,9 +41,28 @@ const getVideoAssets = gql`
 
 const Main = (props) => {
   
-    const { videoIdState, setVideoId, dataState, updateDataState, metadataState, setMetadata  } = useContext(UserContext);
+    const { videoIdState, setVideoId, dataState, updateDataState, metadataState, setMetadata, setScheduleState, scheduleState, setAssetState  } = useContext(UserContext);
     
-    //const [redirect, updateRedirect] = useState('/app/metadata');
+    const updateScheduleState = () =>{
+      let pageAsset = [];
+      let scheduleTemp = {};
+      let scheduleAsset = [];
+      dataState.videoAssets.forEach((data) => {
+        if(data.videoId === videoIdState) {
+          data.pubPointAssetsByVideoId.forEach((a) => {
+            pageAsset.push(a);
+            scheduleTemp = a.pubPointSchedule;
+            scheduleTemp.platform = a.publishPoint;
+            scheduleTemp.pubPointAssetId = a.pubPointAssetId
+            scheduleAsset.push(scheduleTemp);
+          })
+          setAssetState(pageAsset);
+          setScheduleState(scheduleAsset);
+          console.log(scheduleState);
+        }
+      });
+      
+    }
     const { loading, error, data } = useQuery(getVideoAssets);
     if (error) return <p>Error...</p>;
     if (loading || !data) return <p>Fetching...</p>;
@@ -82,7 +101,6 @@ const Main = (props) => {
       }
     ]
     const changeVideoId = (videoId)=>setVideoId(videoId);
-    
     return(   
 
         <div className="col">
