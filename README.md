@@ -12,3 +12,19 @@ The MVP:
 Schedule videos to multiple destinations
 
 Customize video metadata for each destination
+
+The fully implemented solution will:
+
+Search videos from our archive
+
+Schedule videos to multiple destinations
+
+Validate that videos fall within contracted rights periods
+
+Customize video metadata for each destination
+
+Update or delete videos after publication
+
+Handle the entire video publishing lifecycle
+ 
+…all from within a single easy to use interface.
