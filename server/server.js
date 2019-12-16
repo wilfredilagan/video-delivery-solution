@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 
 app.use(
   postgraphile(
-    process.env.DATABASE_URL || "postgres://postgres:sandman@localhost:5432/vds",
+    process.env.DATABASE_URL || "postgres://xxxxxxx:xxxxxxx@localhost:5432/vds",
     "public",
     {
       watchPg: true,
