@@ -10,4 +10,5 @@ This MVP only writes to the database, whereas the full implemented solution woul
 The MVP:
 
 Schedule videos to multiple destinations
+
 Customize video metadata for each destination
