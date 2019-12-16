@@ -3,6 +3,18 @@ import {Input, Button, Col, Row } from 'reactstrap';
 import UserContext from './UserContext';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {gql} from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
+
+const updateScheduleMutation = gql`
+
+mutation updateSchedule($pubPointScheduleId: Int!, $pubPointScheduleKillDate: Datetime!, $pubPointSchedulePubDate: Datetime! ) {
+  __typename
+  updatePubPointSchedule(input: {patch: {pubPointScheduleKillDate: $pubPointScheduleKillDate, pubPointSchedulePubDate: $pubPointSchedulePubDate}, pubPointScheduleId: $pubPointScheduleId}){
+    clientMutationId
+  }
+}`
+
 
 const ScheduleEdit = (props) => {
 
@@ -10,6 +22,7 @@ const ScheduleEdit = (props) => {
 
   const [startDate, setStartDate] = useState(new Date(eventState.pubPointSchedulePubDate));
   const [endDate, setEndDate] = useState(new Date(eventState.pubPointScheduleKillDate));
+  const [updateScheduleCall] = useMutation(updateScheduleMutation);
 
   const updateEvent = (row) => {
     console.log('Update event button was clicked');
@@ -18,7 +31,7 @@ const ScheduleEdit = (props) => {
     console.log(eventState.platform);
     console.log(startDate);
     console.log(endDate);
-    //DB call: PUT updated event (pubPointScheduleId) into current video (videoIdState).
+    updateScheduleCall({variables: {pubPointScheduleId: eventState.pubPointScheduleId, pubPointSchedulePubDate: startDate, pubPointScheduleKillDate: endDate}})
     //DB call: GET schedule for current video (videoIdState).
     //Update scheduleState using setScheduleState.
     setEditingEvent(false);
