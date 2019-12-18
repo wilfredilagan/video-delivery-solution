@@ -73,9 +73,9 @@ const Main = (props) => {
       width: 90,
       Cell: row => (
         <span>
-            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); props.history.push('/app/metadata') }}></CreateIcon>
+            <CreateIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); props.history.push('/app/metadata') } } tabIndex="0" aria-label={"edit metadata for " + row.original.videoId} aria-hidden="false"></CreateIcon>
             &nbsp;&nbsp;&nbsp;
-            <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); props.history.push('/app/schedule') }}></ScheduleIcon>
+            <ScheduleIcon style={{ cursor: 'pointer', fontSize: 18 }} onClick={()=>{changeVideoId(row.original.videoId); props.history.push('/app/schedule') }} tabIndex="0" aria-label={"edit schedule for " + row.original.videoId} aria-hidden="false"></ScheduleIcon>
         </span>
         )
       }
@@ -84,7 +84,7 @@ const Main = (props) => {
     return(   
 
         <div className="col">
-            <p style={{textAlign: "left", fontSize: "30px"}}>Recent Items</p>
+            <h1 style={{textAlign: "left", fontSize: "30px"}}>Recent Items</h1>
             <ReactTable
               data={data.videoAssets}
               columns={columns}

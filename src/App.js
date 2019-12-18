@@ -368,12 +368,17 @@ const App = () => {
     return (
     <div className="App">
       <Container fluid>
+      <a class="skip-main" href="#main">Skip to main content</a>
         <Row >
           <Col style={{backgroundColor:"#E7133D"}}>
+           
             <Nav  />
+            
           </Col>
         </Row>
+        <main>
         <Row >
+          
         <UserContext.Provider value={{videoIdState, setVideoId,dataState, updateDataState, metadataState, setMetadata, scheduleState, setScheduleState, eventState, setEventState, editingEvent, setEditingEvent, addMetadata, addMetadataFlag, setAssetState, assetState, disabledState, setDisabledState}}>
           <Route exact path="/app/schedule" component={Schedule} />
           <Route exact path="/app/metadata" component={Metadata} />
@@ -382,7 +387,9 @@ const App = () => {
           <Route path="/app/users" exact component={Users} />
           <Route path="/app/useredit" exact component={UserEdit} />
         </UserContext.Provider>
+        
         </Row>
+        </main>
       </Container>
     </div>
   );
