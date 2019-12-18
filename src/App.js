@@ -370,11 +370,9 @@ const App = () => {
       <Container fluid>
       <a class="skip-main" href="#main">Skip to main content</a>
         <Row >
-          <Col style={{backgroundColor:"#E7133D"}}>
-           
+          <Col style={{backgroundColor:"#E7133D"}}>   
             <Nav  />
-            
-          </Col>
+        </Col>
         </Row>
         <main>
         <Row >
