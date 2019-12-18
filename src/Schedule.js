@@ -100,7 +100,8 @@ const Schedule = (props) => {
     let pageAsset = [];
     let scheduleTemp = {};
     let scheduleAsset = [];
-    let rData = await refetchData()
+    let rData = await refetchData();
+    await console.log(rData);
     await rData.data.videoAssets.forEach((data) => {
       if(data.videoId === videoIdState) {
         data.pubPointAssetsByVideoId.forEach((a) => {
@@ -124,7 +125,6 @@ const Schedule = (props) => {
   
  async function refetchData (){
    let dataRefetch = await refetch()
-
    return dataRefetch
  }
   
@@ -138,6 +138,7 @@ const Schedule = (props) => {
 
   const deleteEvent = async (row) => {
     console.log('Delete event button was clicked');
+    console.log(row);
     deleteScheduleCall({variables: {pubPointAssetId: row.pubPointAssetId, pubPointScheduleId: row.pubPointScheduleId}})
     console.log(scheduleState);
     setScheduleState(()=>{updateScheduleState()})
@@ -161,7 +162,7 @@ const Schedule = (props) => {
     width: 90,
     Cell: row => (
       <>
-        <EditIcon style={{ fontSize: 18 }} onClick={() => {editEvent(row.original); }}></EditIcon>
+        <EditIcon style={{ fontSize: 18 }} onClick={() => {editEvent(row.original) }}></EditIcon>
         &nbsp;&nbsp;&nbsp;
         <DeleteIcon style={{ fontSize: 18 }} onClick={() => {deleteEvent(row.original)}} />
       </>

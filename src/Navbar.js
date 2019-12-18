@@ -46,10 +46,14 @@ import history from './history';
             <Col>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
-                  <NavLink to="/app/users" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px"}}>Admin</NavLink>
-                  <NavLink to="/login" onClick= {this.logoutClick} style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px", marginLeft: "15px"}}>Logout</NavLink>
-                  <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret style={{color: '#FFFFFF', fontSize: "16px"}}>
+                  <li>
+                    <NavLink to="/app/users" style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px"}}>Admin</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/login" onClick= {this.logoutClick} style={{justifyContent: 'center', color: '#FFFFFF', fontSize: "20px", marginTop: "4px", marginLeft: "15px"}}>Logout</NavLink>
+                  </li>
+                  <UncontrolledDropdown nav inNavbar >
+                  <DropdownToggle nav caret style={{color: '#FFFFFF', fontSize: "16px"}} aria-label="search drop down menu">
                   <FontAwesomeIcon icon={faSearch} size="lg" style={{color:'white', justifyContent: 'right', marginTop: '0px', marginLeft:'8px'}} /> 
                   </DropdownToggle>
                   <DropdownMenu right>

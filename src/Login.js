@@ -114,7 +114,7 @@ export default class Login extends React.Component {
                   <p className="text-center">Password</p>
                   <Input name="password" type="password" onChange={this.handleChange} />
                   <div></div>
-                  <Button onClick={this.handleSubmit} style={{marginTop: "30px", marginLeft: "35%"}}>Submit</Button>
+                  <Button onClick={this.handleSubmit} onKeyDown={this.handleSubmit} style={{marginTop: "30px", marginLeft: "35%"}}>Submit</Button>
               </Col>
           </Row>
           {this.renderError()}

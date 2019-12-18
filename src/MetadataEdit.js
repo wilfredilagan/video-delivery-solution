@@ -155,10 +155,10 @@ const MetadataEdit = (props) => {
                 <Input type='select' name='platform' value={publishPoint || "Brightcove / tvo.org"} onChange={e => setPublishPoint(e.target.value)} disabled={disabledState}>
                   <option value="Brightcove / tvo.org">Brightcove / tvo.org</option>
                   <option value="Brightcove / TVO/Kids">Brightcove / TVO/Kids</option>
-                  <option value="Brightcove / ILC">Brightcove / TVO/Kids</option>
+                  <option value="Brightcove / ILC">Brightcove / ILC</option>
                   <option value="Podcast / WordBomb">Podcast / WordBomb</option>
-                  <option value="YouTube / Docs">YouTube / TVOKids</option>
-                  <option value="YouTube / Preschool">YouTube / TVOKids</option>
+                  <option value="YouTube / Docs">YouTube / Docs</option>
+                  <option value="YouTube / Preschool">YouTube / Preschool</option>
                   <option value="YouTube / TVOKids">YouTube / TVOKids</option>
                 </Input>
                 <p>Title</p>
